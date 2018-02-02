@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.xstefank.lra</groupId>
-    <artifactId>lra-definition</artifactId>
+    <artifactId>lra-extension</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>lra-definition</name>
+    <name>lra-extension</name>
     <url>http://maven.apache.org</url>
 
     <properties>
