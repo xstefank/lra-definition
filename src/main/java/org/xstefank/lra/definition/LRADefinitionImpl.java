@@ -15,6 +15,10 @@ public class LRADefinitionImpl implements LRADefinition {
     private Object data;
 
     public LRADefinitionImpl(String name, List<Action> actions, Object data) {
+        if (actions == null || actions.size() == 0) {
+            throw new IllegalArgumentException("Cannot create LRA without any action specification");
+        }
+
         this.name = name;
         this.actions = actions;
         this.data = data;

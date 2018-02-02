@@ -1,15 +1,14 @@
 package org.xstefank.lra.definition;
 
+@FunctionalInterface
 public interface Action {
 
     /**
-     * Simple identifaction of the action
+     * The invocation of the work that is to be performed
+     * by the action
+     *
+     * @param data optional LRA data
      */
-    String getName();
-
-    /**
-     * The invocation of the work the action performs
-     */
-    void invoke();
+    void invoke(Object data);
 
 }
