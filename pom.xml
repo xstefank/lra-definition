@@ -19,9 +19,16 @@
         <version.org.projectlombok>1.16.18</version.org.projectlombok>
         <version.junit>4.12</version.junit>
         <version.com.fasterxml.jackson>2.9.0.pr4</version.com.fasterxml.jackson>
+        <version.org.jboss.narayana>5.7.2.Final</version.org.jboss.narayana>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.jboss.narayana.rts</groupId>
+            <artifactId>lra-client</artifactId>
+            <version>${version.org.jboss.narayana}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -50,6 +57,26 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>Download lra-coordinator</id>
+                        <inherited>falser</inherited>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <environmentVariables>
+                                <NARAYANA_VERSION>${version.org.jboss.narayana}</NARAYANA_VERSION>
+                            </environmentVariables>
+                            <executable>${project.basedir}/lra_coordinator.sh</executable>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

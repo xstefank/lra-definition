@@ -28,4 +28,8 @@ target
 .idea
 *.iml
 
+# narayana
+narayana-full-*
+lra-coordinator-swarm.jar
+
 
