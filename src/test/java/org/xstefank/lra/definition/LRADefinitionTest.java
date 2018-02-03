@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.xstefank.lra.model.LRAResult;
 
 public class LRADefinitionTest {
 
@@ -54,8 +55,9 @@ public class LRADefinitionTest {
         }
 
         @Override
-        public void invoke(Object data) {
+        public LRAResult invoke(Object data) {
             System.out.println(getName() + "invocation");
+            return LRAResult.SUCCESS;
         }
     }
 
