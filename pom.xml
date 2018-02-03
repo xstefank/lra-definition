@@ -5,10 +5,15 @@
     <groupId>org.xstefank.lra</groupId>
     <artifactId>lra-executor-extension</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>lra-executor-extension</name>
     <url>http://maven.apache.org</url>
+
+    <modules>
+        <module>lra-definitions</module>
+        <module>lra-executor</module>
+    </modules>
 
     <properties>
         <version.org.projectlombok>1.16.18</version.org.projectlombok>
