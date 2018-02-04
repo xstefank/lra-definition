@@ -17,6 +17,13 @@
             <artifactId>lra-definitions</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- for Intellij -->
+        <dependency>
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-all-7.0</artifactId>
+            <version>1.0.3.Final</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 
