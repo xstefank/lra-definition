@@ -20,6 +20,7 @@
         <version.junit>4.12</version.junit>
         <version.com.fasterxml.jackson>2.9.0.pr4</version.com.fasterxml.jackson>
         <version.org.jboss.narayana>5.7.2.Final</version.org.jboss.narayana>
+        <version.org.jboss.logging>3.3.1.Final</version.org.jboss.logging>
     </properties>
 
     <dependencies>
@@ -38,6 +39,11 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${version.com.fasterxml.jackson}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+            <version>${version.org.jboss.logging}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

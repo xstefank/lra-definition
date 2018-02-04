@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xstefank.lra.definition.LRABuilder;
 import org.xstefank.lra.definition.LRADefinition;
-import org.xstefank.lra.model.LRAResult;
+import org.xstefank.lra.model.ActionResult;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -33,7 +33,7 @@ public class LRAExecutorTest {
                 .name("test LRA")
                 .withAction(data -> {
                     counter.getAndIncrement();
-                    return LRAResult.SUCCESS;
+                    return ActionResult.SUCCESS;
                 })
                 .data(new StringBuilder("mutable"))
                 .build();
@@ -50,7 +50,7 @@ public class LRAExecutorTest {
     public void testExecutionFailure() {
         definition = new LRABuilder()
                 .name("test LRA")
-                .withAction(data -> LRAResult.FAILURE)
+                .withAction(data -> ActionResult.FAILURE)
                 .data(new StringBuilder("mutable"))
                 .build();
 
