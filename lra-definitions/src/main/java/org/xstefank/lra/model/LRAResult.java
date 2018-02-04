@@ -1,11 +1,25 @@
 package org.xstefank.lra.model;
 
 import lombok.ToString;
+import org.xstefank.lra.definition.LRADefinition;
 
 @ToString
-public enum LRAResult {
+public class LRAResult {
 
-    SUCCESS,
-    FAILURE
+    private final LRAOutcome outcome;
+    private final LRADefinition lraDefinition;
+
+    public LRAResult(LRAOutcome outcome, LRADefinition lraDefinition) {
+        this.outcome = outcome;
+        this.lraDefinition = lraDefinition;
+    }
+
+    public LRAOutcome getOutcome() {
+        return outcome;
+    }
+
+    public LRADefinition getLraDefinition() {
+        return lraDefinition;
+    }
 
 }

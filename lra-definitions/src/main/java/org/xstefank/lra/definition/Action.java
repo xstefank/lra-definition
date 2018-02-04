@@ -1,6 +1,6 @@
 package org.xstefank.lra.definition;
 
-import org.xstefank.lra.model.LRAResult;
+import org.xstefank.lra.model.ActionResult;
 
 @FunctionalInterface
 public interface Action {
@@ -12,6 +12,6 @@ public interface Action {
      * @param data optional LRA data
      * @return the result of the action invocation
      */
-    LRAResult invoke(Object data);
+    ActionResult invoke(Object data);
 
 }
