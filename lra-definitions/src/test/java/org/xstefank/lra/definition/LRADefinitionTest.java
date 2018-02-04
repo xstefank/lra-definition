@@ -19,7 +19,7 @@ public class LRADefinitionTest {
                 .data("test data")
                 .build();
 
-        Assert.assertEquals("test LRA", definition.getName());
+        Assert.assertEquals("test LRA", definition.getId());
         Assert.assertEquals(1, definition.getActions().size());
         Assert.assertEquals(String.class, definition.getData().getClass());
         Assert.assertEquals("test data", definition.getData());
@@ -43,7 +43,7 @@ public class LRADefinitionTest {
                 .withAction(new DummyAction())
                 .build();
 
-        Assert.assertEquals("test LRA", definition.getName());
+        Assert.assertEquals("test LRA", definition.getId());
         Assert.assertEquals(2, definition.getActions().size());
         Assert.assertNull(definition.getData());
     }

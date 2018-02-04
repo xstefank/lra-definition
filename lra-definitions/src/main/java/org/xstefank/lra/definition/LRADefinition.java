@@ -12,7 +12,7 @@ public interface LRADefinition {
     /**
      * Provides a simple identifaction of the LRA
      */
-    String getName();
+    String getId();
 
     /**
      * The list of actions that the LRA consists of
