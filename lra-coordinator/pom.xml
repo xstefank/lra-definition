@@ -20,41 +20,9 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <narayana.nodename.property>CoreEnvironmentBean.nodeIdentifier</narayana.nodename.property>
         <swarm.http.port>8080</swarm.http.port>
-        <version.wildfly-swarm>2017.8.1</version.wildfly-swarm>
         <version.resteasy-client>3.1.3.Final</version.resteasy-client>
         <version.arquillian>1.1.12.Final</version.arquillian>
     </properties>
-
-    <build>
-        <finalName>lra-coordinator</finalName>
-        <plugins>
-          <plugin>
-            <inherited>false</inherited>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-          </plugin>
-            <plugin>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>wildfly-swarm-plugin</artifactId>
-                <version>${version.wildfly-swarm}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>package</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <environment>
-                        <swarm.http.port>${swarm.http.port}</swarm.http.port>
-                    </environment>
-                    <properties>
-                        <lra.http.port>${swarm.http.port}</lra.http.port>
-                    </properties>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
     <dependencyManagement>
         <dependencies>
@@ -121,24 +89,35 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-      <profile>
-          <id>release</id>
-          <build>
-              <plugins>
-                <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-install-plugin</artifactId>
-                  <executions>
+    <build>
+        <finalName>lra-coordinator</finalName>
+        <plugins>
+            <plugin>
+                <inherited>false</inherited>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>wildfly-swarm-plugin</artifactId>
+                <version>${version.wildfly-swarm}</version>
+                <executions>
                     <execution>
-                      <id>default-install</id>
-                      <phase>install</phase>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
                     </execution>
-                  </executions>
-                  <inherited>false</inherited>
-                </plugin>
-              </plugins>
-          </build>
-      </profile>
-    </profiles>
+                </executions>
+                <configuration>
+                    <environment>
+                        <swarm.http.port>${swarm.http.port}</swarm.http.port>
+                    </environment>
+                    <properties>
+                        <lra.http.port>${swarm.http.port}</lra.http.port>
+                    </properties>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
