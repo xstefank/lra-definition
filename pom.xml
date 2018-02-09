@@ -11,6 +11,7 @@
     <url>http://maven.apache.org</url>
 
     <modules>
+        <module>lra-coordinator</module>
         <module>lra-definitions</module>
         <module>lra-executor</module>
     </modules>
