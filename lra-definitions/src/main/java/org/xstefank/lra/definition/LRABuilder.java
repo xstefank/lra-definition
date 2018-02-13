@@ -8,6 +8,7 @@ public class LRABuilder {
     private String name;
     private List<Action> actions = new ArrayList<>();
     private Object data;
+    private List<LRADefinition> nested = new ArrayList<>();
 
     public LRABuilder name(String name) {
         this.name = name;
@@ -25,7 +26,7 @@ public class LRABuilder {
     }
 
     public LRADefinition build() {
-        return new LRADefinitionImpl(name, actions, data);
+        return new LRADefinitionImpl(name, actions, data, nested);
     }
 
 }

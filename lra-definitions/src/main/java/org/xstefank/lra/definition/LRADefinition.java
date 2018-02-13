@@ -24,4 +24,9 @@ public interface LRADefinition {
      */
     Object getData();
 
+    /**
+     * The list of nested LRA definitions
+     */
+    List<LRADefinition> getNestedLRAs();
+
 }
