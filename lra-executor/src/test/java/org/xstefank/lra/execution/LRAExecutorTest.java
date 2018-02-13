@@ -29,7 +29,7 @@ public class LRAExecutorTest {
 
     @Test
     public void testSimpleExecution() {
-        definition = new LRABuilder()
+        definition = LRABuilder.lra()
                 .name("test LRA")
                 .withAction(data -> {
                     counter.getAndIncrement();
@@ -48,7 +48,7 @@ public class LRAExecutorTest {
 
     @Test
     public void testExecutionFailure() {
-        definition = new LRABuilder()
+        definition = LRABuilder.lra()
                 .name("test LRA")
                 .withAction(data -> ActionResult.FAILURE)
                 .data(new StringBuilder("mutable"))

@@ -13,7 +13,7 @@ public class LRADefinitionTest {
 
     @Test
     public void testDefinitionSimple() {
-        LRADefinition definition = new LRABuilder()
+        LRADefinition definition = LRABuilder.lra()
                 .name("test LRA")
                 .withAction(new DummyAction())
                 .data("test data")
@@ -29,7 +29,7 @@ public class LRADefinitionTest {
     public void testEmptyActions() {
         expectedException.expect(IllegalArgumentException.class);
 
-        LRADefinition definition = new LRABuilder()
+        LRADefinition definition = LRABuilder.lra()
                 .name("test LRA")
                 .data("test data")
                 .build();
@@ -37,7 +37,7 @@ public class LRADefinitionTest {
 
     @Test
     public void testMultipleActionsNoData() {
-        LRADefinition definition = new LRABuilder()
+        LRADefinition definition = LRABuilder.lra()
                 .name("test LRA")
                 .withAction(new DummyAction())
                 .withAction(new DummyAction())
