@@ -36,6 +36,10 @@ public class LRABuilder {
         return new NestedLRABuilder(this);
     }
 
+    public LRABuilder nested(LRADefinition lraDefinition) {
+        return addNested(lraDefinition);
+    }
+
     public LRADefinition build() {
         return new LRADefinitionImpl(name, actions, data, nested);
     }

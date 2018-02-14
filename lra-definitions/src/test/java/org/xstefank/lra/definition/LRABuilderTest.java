@@ -58,4 +58,37 @@ public class LRABuilderTest {
         Assert.assertEquals(1, nestedLRAs.get(0).getActions().size());
     }
 
+    @Test
+    public void testRecursivelyNestedLRA() {
+        LRADefinition lra = LRABuilder.lra()
+                .name("topLRA")
+                .withAction(d -> ActionResult.SUCCESS)
+                .nested(LRABuilder.lra()
+                            .name("firstLevel")
+                            .withAction(d -> ActionResult.SUCCESS)
+                            .nested(LRABuilder.lra()
+                                        .name("secondLevel")
+                                        .withAction(d -> ActionResult.SUCCESS)
+                                        .build()
+                            ).build()
+                )
+                .data(42)
+                .build();
+
+        Assert.assertEquals("topLRA", lra.getName());
+        Assert.assertEquals(1, lra.getActions().size());
+        Assert.assertEquals(1, lra.getNestedLRAs().size());
+        Assert.assertEquals(42, lra.getData());
+
+        LRADefinition firstLevel = lra.getNestedLRAs().get(0);
+        Assert.assertEquals("firstLevel", firstLevel.getName());
+        Assert.assertEquals(1, firstLevel.getActions().size());
+        Assert.assertEquals(1, firstLevel.getNestedLRAs().size());
+
+        LRADefinition secondLevel = firstLevel.getNestedLRAs().get(0);
+        Assert.assertEquals("secondLevel", secondLevel.getName());
+        Assert.assertEquals(1, secondLevel.getActions().size());
+        Assert.assertEquals(0, secondLevel.getNestedLRAs().size());
+    }
+
 }
