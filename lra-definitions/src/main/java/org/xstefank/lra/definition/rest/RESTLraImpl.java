@@ -1,0 +1,18 @@
+package org.xstefank.lra.definition.rest;
+
+import org.xstefank.lra.definition.Action;
+import org.xstefank.lra.definition.LRADefinition;
+import org.xstefank.lra.definition.LRADefinitionImpl;
+
+import java.util.List;
+
+public class RESTLraImpl extends LRADefinitionImpl {
+
+    private String callbackURL;
+
+    public RESTLraImpl(String name, List<Action> actions, Object data, List<LRADefinition> nested, String callbackURL) {
+        super(name, actions, data, nested);
+        this.callbackURL = callbackURL;
+    }
+
+}
