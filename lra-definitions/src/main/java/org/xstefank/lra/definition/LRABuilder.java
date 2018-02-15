@@ -3,7 +3,8 @@ package org.xstefank.lra.definition;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LRABuilder {
+@SuppressWarnings(value = "unchecked")
+public class LRABuilder<T extends LRABuilder, U extends LRADefinition> {
 
     String name;
     List<Action> actions = new ArrayList<>();
@@ -17,35 +18,35 @@ public class LRABuilder {
         return new LRABuilder();
     }
 
-    public LRABuilder name(String name) {
+    public T name(String name) {
         this.name = name;
-        return this;
+        return (T) this;
     }
 
-    public LRABuilder withAction(Action action) {
+    public T withAction(Action action) {
         this.actions.add(action);
-        return this;
+        return (T) this;
     }
 
-    public LRABuilder data(Object data) {
+    public T data(Object data) {
         this.data = data;
-        return this;
+        return (T) this;
     }
 
-    public NestedLRABuilder nested() {
+    public NestedLRABuilder<T, U> nested() {
         return new NestedLRABuilder(this);
     }
 
-    public LRABuilder nested(LRADefinition lraDefinition) {
-        return addNested(lraDefinition);
+    public T nested(LRADefinition lraDefinition) {
+        return (T) addNested(lraDefinition);
     }
 
-    public LRADefinition build() {
-        return new LRADefinitionImpl(name, actions, data, nested);
+    public U build() {
+        return (U) new LRADefinitionImpl(name, actions, data, nested);
     }
 
-    protected LRABuilder addNested(LRADefinition lraDefinition) {
+    protected T addNested(LRADefinition lraDefinition) {
         this.nested.add(lraDefinition);
-        return this;
+        return (T) this;
     }
 }
