@@ -6,7 +6,7 @@ import org.xstefank.lra.definition.LRADefinitionImpl;
 
 import java.util.List;
 
-public class RESTLraImpl extends LRADefinitionImpl {
+public class RESTLraImpl extends LRADefinitionImpl implements RESTLra{
 
     private String callbackURL;
 
@@ -15,4 +15,8 @@ public class RESTLraImpl extends LRADefinitionImpl {
         this.callbackURL = callbackURL;
     }
 
+    @Override
+    public String getCallbackURL() {
+        return callbackURL;
+    }
 }

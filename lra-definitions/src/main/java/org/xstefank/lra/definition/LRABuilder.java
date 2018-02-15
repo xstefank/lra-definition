@@ -6,10 +6,10 @@ import java.util.List;
 @SuppressWarnings(value = "unchecked")
 public class LRABuilder<T extends LRABuilder, U extends LRADefinition> {
 
-    String name;
-    List<Action> actions = new ArrayList<>();
-    Object data;
-    List<LRADefinition> nested = new ArrayList<>();
+    protected String name;
+    protected List<Action> actions = new ArrayList<>();
+    protected Object data;
+    protected List<LRADefinition> nested = new ArrayList<>();
 
     protected LRABuilder() {
     }
