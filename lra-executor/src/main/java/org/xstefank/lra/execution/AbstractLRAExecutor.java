@@ -4,6 +4,7 @@ import org.jboss.logging.Logger;
 import org.xstefank.lra.definition.Action;
 import org.xstefank.lra.definition.LRADefinition;
 import org.xstefank.lra.model.ActionResult;
+import org.xstefank.lra.model.Result;
 
 public abstract class AbstractLRAExecutor implements LRAExecutor {
 
@@ -16,10 +17,11 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
         //TODO let subclasses start LRA?
 //        URL lraUrlId = startLRA(baseUri);
 //        Object info = lra.getInfo();
+        String lraId = "stub";
 
         boolean needCompensation = lraDefinition.getActions().stream()
-                .map(a -> executeAction(a, lraDefinition.getData()))
-                .anyMatch(x -> x.equals(ActionResult.FAILURE));
+                .map(a -> executeAction(a, lraId, lraDefinition.getData()))
+                .anyMatch(x -> x.getResult().equals(Result.FAILURE));
 
         if (!needCompensation) {
             completeLRA();
@@ -29,8 +31,8 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
 
     }
 
-    protected ActionResult executeAction(Action action, Object data) {
-        return action.invoke(data);
+    protected ActionResult executeAction(Action action, String lraId, Object data) {
+        return action.invoke(lraId, data);
     }
 
     protected abstract void compensateLRA();

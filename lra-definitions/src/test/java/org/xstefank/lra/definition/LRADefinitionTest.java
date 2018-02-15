@@ -55,9 +55,9 @@ public class LRADefinitionTest {
         }
 
         @Override
-        public ActionResult invoke(Object data) {
+        public ActionResult invoke(String lraId, Object data) {
             System.out.println(getName() + "invocation");
-            return ActionResult.SUCCESS;
+            return ActionResult.success();
         }
     }
 

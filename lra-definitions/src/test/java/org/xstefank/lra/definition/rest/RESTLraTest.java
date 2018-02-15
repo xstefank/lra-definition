@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.xstefank.lra.model.ActionResult;
 
+import static org.xstefank.lra.definition.TestUtil.dummyAction;
+
 public class RESTLraTest {
 
     @Rule
@@ -17,7 +19,7 @@ public class RESTLraTest {
     public void testJsonWithCallback() throws JsonProcessingException {
         RESTLra lra = RESTLraBuilder.lra()
                 .name("testLRA")
-                .withAction(d -> ActionResult.SUCCESS)
+                .withAction(dummyAction())
                 .data(42)
                 .callback("http://testLocal.org")
                 .build();
@@ -34,7 +36,7 @@ public class RESTLraTest {
 
         RESTLra lra = RESTLraBuilder.lra()
                 .name("testLRA")
-                .withAction(d -> ActionResult.SUCCESS)
+                .withAction(dummyAction())
                 .build();
     }
 }

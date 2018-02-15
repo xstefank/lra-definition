@@ -2,11 +2,10 @@ package org.xstefank.lra.definition;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.xstefank.lra.model.ActionResult;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
+
+import static org.xstefank.lra.definition.TestUtil.dummyAction;
 
 public class LRABuilderTest {
 
@@ -14,7 +13,7 @@ public class LRABuilderTest {
     public void testSimpleLRA() {
         LRADefinition lra = LRABuilder.lra()
                 .name("test")
-                .withAction(d -> ActionResult.SUCCESS)
+                .withAction(dummyAction())
                 .build();
 
         Assert.assertEquals("test", lra.getName());
@@ -25,8 +24,8 @@ public class LRABuilderTest {
     public void testComplexLRA() {
         LRADefinition lra = LRABuilder.lra()
                 .name("test")
-                .withAction(d -> ActionResult.SUCCESS)
-                .withAction(d -> ActionResult.SUCCESS)
+                .withAction(dummyAction())
+                .withAction(dummyAction())
                 .data(42)
                 .build();
 
@@ -39,10 +38,10 @@ public class LRABuilderTest {
     public void testNestedLRA() {
         LRADefinition lra = LRABuilder.lra()
                 .name("topLRA")
-                .withAction(d -> ActionResult.SUCCESS)
+                .withAction(dummyAction())
                 .nested()
                     .name("nestedLRA")
-                    .withAction(d -> ActionResult.SUCCESS)
+                    .withAction(dummyAction())
                     .end()
                 .data(42)
                 .build();
@@ -62,13 +61,13 @@ public class LRABuilderTest {
     public void testRecursivelyNestedLRA() {
         LRADefinition lra = LRABuilder.lra()
                 .name("topLRA")
-                .withAction(d -> ActionResult.SUCCESS)
+                .withAction(dummyAction())
                 .nested(LRABuilder.lra()
                             .name("firstLevel")
-                            .withAction(d -> ActionResult.SUCCESS)
+                            .withAction(dummyAction())
                             .nested(LRABuilder.lra()
                                         .name("secondLevel")
-                                        .withAction(d -> ActionResult.SUCCESS)
+                                        .withAction(dummyAction())
                                         .build()
                             ).build()
                 )

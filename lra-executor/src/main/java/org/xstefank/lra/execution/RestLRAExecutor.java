@@ -9,7 +9,7 @@ public class RestLRAExecutor extends AbstractLRAExecutor {
     private static final Logger log = Logger.getLogger(RestLRAExecutor.class);
 
     @Override
-    protected ActionResult executeAction(Action action, Object data) {
+    protected ActionResult executeAction(Action action, String lraId, Object data) {
         return null;
     }
 
