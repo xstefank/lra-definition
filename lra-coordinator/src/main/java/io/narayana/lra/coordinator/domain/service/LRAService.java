@@ -50,6 +50,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -194,6 +196,49 @@ public class LRAService {
                 AtomicAction.suspend();
             }
         }
+    }
+
+    private ExecutorService executor = Executors.newCachedThreadPool();
+
+    public synchronized URL startLRAAsync(String baseUri, URL parentLRA, String clientId, Long timelimit) {
+        //TODO persist LRA before return
+
+        Transaction lra;
+
+        try {
+            lra = new Transaction(this, baseUri, parentLRA, clientId);
+        } catch (MalformedURLException e) {
+            throw new InvalidLRAIdException(baseUri, "Invalid base uri", e);
+        }
+
+        executor.submit(() -> {
+            if (lra.currentLRA() != null)
+                if (LRALogger.logger.isInfoEnabled())
+                    LRALogger.logger.infof("LRAServicve.startLRA LRA %s is already associated%n",
+                            lra.currentLRA().get_uid().fileStringForm());
+
+            int status = lra.begin(timelimit);
+
+            if (status != ActionStatus.RUNNING) {
+                lraTrace(lra.getId(), "failed to start LRA");
+
+                lra.abort();
+
+                throw new InternalServerErrorException("Could not start LRA: " + ActionStatus.stringForm(status));
+            } else {
+                try {
+                    addTransaction(lra);
+
+                    lraTrace(lra.getId(), "started LRA");
+
+                    return lra.getId();
+                } finally {
+                    AtomicAction.suspend();
+                }
+            }
+        });
+
+        return lra.getId();
     }
 
     public LRAStatus endLRA(URL lraId, boolean compensate, boolean fromHierarchy) {
