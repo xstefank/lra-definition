@@ -10,6 +10,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+
     <artifactId>lra-coordinator</artifactId>
     <name>LRA Coordinator</name>
     <packaging>war</packaging>
