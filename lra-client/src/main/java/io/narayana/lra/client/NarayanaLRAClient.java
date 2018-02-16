@@ -71,6 +71,7 @@ import io.narayana.lra.annotation.Leave;
 import io.narayana.lra.annotation.Status;
 import io.narayana.lra.annotation.TimeLimit;
 import io.narayana.lra.logging.LRALogger;
+import org.xstefank.lra.definition.rest.RESTLra;
 
 /**
  * A utility class for controlling the lifecycle of Long Running Actions (LRAs) but the prefered mechanism is to use
@@ -340,6 +341,63 @@ public class NarayanaLRAClient implements LRAClient, Closeable {
                     .queryParam(PARENT_LRA_PARAM_NAME, encodedParentLRA)
                     .request()
                     .post(Entity.text(""));
+
+            // validate the HTTP status code says an LRAInfo resource was created
+            if(!isExpectedResponseStatus(response, Response.Status.CREATED)) {
+                LRALogger.i18NLogger.error_lraCreationUnexpectedStatus(response.getStatus(), response);
+                throw new GenericLRAException(INTERNAL_SERVER_ERROR.getStatusCode(),
+                        "LRA start returned an unexpected status code: " + response.getStatus());
+            }
+
+            // validate that there is an LRAInfo response header holding the LRAInfo id
+            Object lraObject = response.getHeaders().getFirst(LRA_HTTP_HEADER);
+
+            if(lraObject == null) {
+                LRALogger.i18NLogger.error_nullLraOnCreation(response);
+                throw new GenericLRAException(INTERNAL_SERVER_ERROR.getStatusCode(), "LRA creation is null");
+            }
+
+            lra = new URL(URLDecoder.decode(lraObject.toString(), "UTF-8"));
+
+            lraTrace(lra, "startLRA returned");
+
+            Current.push(lra);
+
+        } catch (UnsupportedEncodingException | MalformedURLException e) {
+            LRALogger.i18NLogger.error_cannotCreateUrlFromLCoordinatorResponse(response, e);
+            throw new GenericLRAException(INTERNAL_SERVER_ERROR.getStatusCode(), e.getMessage(), e);
+        } catch (Exception e) {
+            LRALogger.i18NLogger.error_cannotContactLRACoordinator(base, e);
+
+            if (e.getCause() != null && ConnectException.class.equals(e.getCause().getClass()))
+                throw new GenericLRAException(SERVICE_UNAVAILABLE.getStatusCode(),
+                        "Cannot connect to the LRA coordinator: "  + base + " (" + e.getCause().getMessage() + ")", e);
+
+            throw new GenericLRAException(Response.Status.SERVICE_UNAVAILABLE.getStatusCode(), e.getMessage(), e);
+        } finally {
+            releaseConnection(response);
+        }
+
+        // check that the lra is active
+        // isActiveLRA(lra);
+
+        return lra;
+    }
+
+    public URL startLRAAsync(RESTLra lraDefinition) throws GenericLRAException {
+        Response response = null;
+        URL lra;
+
+        lraTracef("startLRA for client %s with parent %s", lraDefinition.getClientId(), lraDefinition.getParentLRA());
+
+        try {
+//            String encodedParentLRA = parentLRA == null ? "" : URLEncoder.encode(parentLRA.toString(), "UTF-8");
+
+            aquireConnection();
+
+            response = getTarget().path("/start-definition")
+                    .request()
+                    .post(Entity.json(lraDefinition));
 
             // validate the HTTP status code says an LRAInfo resource was created
             if(!isExpectedResponseStatus(response, Response.Status.CREATED)) {

@@ -31,6 +31,7 @@ public class RESTLraTest {
                 "\"clientId\":\"\"," +
                 "\"timeout\":0," +
                 "\"callbackURL\":\"http://testLocal.org\"," +
+                "\"subscribeCallerAsParticipant\":false," +
                 "\"nestedLRAs\":[]" +
                 "}";
 

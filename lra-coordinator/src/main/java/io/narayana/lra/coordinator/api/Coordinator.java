@@ -240,19 +240,6 @@ public class Coordinator {
     @Path("start-definition")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
-    @ApiOperation(value = "Start a new LRA",
-            notes = "The LRA model uses a presumed nothing protocol: the coordinator must communicate\n"
-                    + "with Compensators in order to inform them of the LRA activity. Every time a\n"
-                    + "Compensator is enrolled with a LRA, the coordinator must make information about\n"
-                    + "it durable so that the Compensator can be contacted when the LRA terminates,\n"
-                    + "even in the event of subsequent failures. Compensators, clients and coordinators\n"
-                    + "cannot make any presumption about the state of the global transaction without\n"
-                    + "consulting the coordinator and all compensators, respectively.",
-            response = String.class)
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "The request was successful and the response body contains the id of the new LRA"),
-            @ApiResponse(code = 500, message = "A new LRA could not be started")
-    } )
     public Response startLRAWithDefinition(RESTLra lra) {
 
         URL parentLRAUrl = null;
