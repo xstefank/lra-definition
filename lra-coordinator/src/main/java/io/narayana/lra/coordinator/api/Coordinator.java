@@ -40,6 +40,7 @@ import io.narayana.lra.client.NarayanaLRAClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -68,6 +69,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.swagger.annotations.ApiOperation;
+import org.xstefank.lra.definition.rest.RESTLra;
 
 import static io.narayana.lra.client.NarayanaLRAClient.CLIENT_ID_PARAM_NAME;
 import static io.narayana.lra.client.NarayanaLRAClient.COORDINATOR_PATH_NAME;
@@ -233,6 +235,59 @@ public class Coordinator {
                 .header(LRA_HTTP_HEADER, lraId)
                 .build();
     }
+
+    @POST
+    @Path("start-definition")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
+    @ApiOperation(value = "Start a new LRA",
+            notes = "The LRA model uses a presumed nothing protocol: the coordinator must communicate\n"
+                    + "with Compensators in order to inform them of the LRA activity. Every time a\n"
+                    + "Compensator is enrolled with a LRA, the coordinator must make information about\n"
+                    + "it durable so that the Compensator can be contacted when the LRA terminates,\n"
+                    + "even in the event of subsequent failures. Compensators, clients and coordinators\n"
+                    + "cannot make any presumption about the state of the global transaction without\n"
+                    + "consulting the coordinator and all compensators, respectively.",
+            response = String.class)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The request was successful and the response body contains the id of the new LRA"),
+            @ApiResponse(code = 500, message = "A new LRA could not be started")
+    } )
+    public Response startLRAWithDefinition(RESTLra lra) {
+
+        URL parentLRAUrl = null;
+
+        String parentLRA = lra.getParentLRA();
+        if (parentLRA != null && !parentLRA.isEmpty())
+            parentLRAUrl = NarayanaLRAClient.lraToURL(parentLRA, "Invalid parent LRA id");
+
+        String coordinatorUrl = String.format("%s%s", context.getBaseUri(), COORDINATOR_PATH_NAME);
+        URL lraId = lraService.startLRA(coordinatorUrl, parentLRAUrl, lra.getClientId(), lra.getTimeout());
+
+        if (parentLRAUrl != null) {
+            // register with the parentLRA as a participant
+            Client client = ClientBuilder.newClient();
+            String compensatorUrl = String.format("%s/%s", coordinatorUrl,
+                    NarayanaLRAClient.encodeURL(lraId, "Invalid parent LRA id"));
+            Response response;
+
+            if (lraService.hasTransaction(parentLRAUrl))
+                response = joinLRAViaBody(parentLRAUrl.toExternalForm(), lra.getTimeout(), null, compensatorUrl);
+            else
+                response = client.target(parentLRA).request().put(Entity.text(compensatorUrl));
+
+            if (response.getStatus() != Response.Status.OK.getStatusCode())
+                return response;
+        }
+
+        Current.push(lraId);
+
+        return Response.status(Response.Status.CREATED)
+                .entity(lraId)
+                .header(LRA_HTTP_HEADER, lraId)
+                .build();
+    }
+
 
     @PUT
     @Path("{LraId}/renew")
