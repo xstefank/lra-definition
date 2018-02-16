@@ -10,7 +10,7 @@ import java.util.List;
 public interface LRADefinition {
 
     /**
-     * Provides a simple identifaction of the LRA
+     * Provides a simple human readable name of the LRA
      */
     String getName();
 
@@ -28,5 +28,11 @@ public interface LRADefinition {
      * The list of nested LRA definitions
      */
     List<LRADefinition> getNestedLRAs();
+
+    String getParentLRA();
+
+    String getClientId();
+
+    long getTimeout();
 
 }

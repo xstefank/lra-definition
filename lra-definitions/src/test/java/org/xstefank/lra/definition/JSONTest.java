@@ -6,20 +6,31 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 import static org.xstefank.lra.definition.TestUtil.dummyAction;
 
 public class JSONTest {
 
     @Test
-    public void testSaveJSON() throws IOException {
+    public void testSimpleJSON() throws IOException {
         LRADefinition lra = LRABuilder.lra()
                 .name("testLRA")
                 .withAction(dummyAction())
                 .data(42)
                 .build();
 
-        final String expected = "{\"name\":\"testLRA\",\"actions\":[{}],\"data\":42,\"nestedLRAs\":[]}";
+        final String expected = "{" +
+                "\"name\":\"testLRA\"," +
+                "\"actions\":[{}]," +
+                "\"data\":42," +
+                "\"parentLRA\":null," +
+                "\"clientId\":\"\"," +
+                "\"timeout\":0," +
+                "\"nestedLRAs\":[]" +
+                "}";
 
         ObjectMapper mapper = new ObjectMapper();
         Assert.assertEquals(expected, mapper.writeValueAsString(lra));
@@ -38,9 +49,51 @@ public class JSONTest {
                 .data(42)
                 .build();
 
-        final String expected = "{\"name\":\"topLRA\",\"actions\":[{}],\"data\":42,\"nestedLRAs\":[{\"name\":\"nestedLRA\",\"actions\":[{}],\"data\":41,\"nestedLRAs\":[]}]}";
+        final String expected = "{" +
+                "\"name\":\"topLRA\"," +
+                "\"actions\":[{}]," +
+                "\"data\":42," +
+                "\"parentLRA\":null," +
+                "\"clientId\":\"\"," +
+                "\"timeout\":0," +
+                "\"nestedLRAs\":[{" +
+                    "\"name\":\"nestedLRA\"," +
+                    "\"actions\":[{}]," +
+                    "\"data\":41,\"" +
+                    "parentLRA\":null," +
+                    "\"clientId\":\"\"," +
+                    "\"timeout\":0," +
+                    "\"nestedLRAs\":[]}]" +
+                "}";
 
         ObjectMapper mapper = new ObjectMapper();
         Assert.assertEquals(expected, mapper.writeValueAsString(lra));
     }
+
+    @Test
+    public void testJSONComplex() throws Exception {
+        LRADefinition lra = LRABuilder.lra()
+                .name("testLRA")
+                .withAction(dummyAction())
+                .data(42)
+                .parentLRA(new URL("http://parent.lra"))
+                .clientId("clientId")
+                .timeout(30, TimeUnit.SECONDS)
+                .build();
+
+
+        String expected = "{" +
+                "\"name\":\"testLRA\"," +
+                "\"actions\":[{}]," +
+                "\"data\":42," +
+                "\"parentLRA\":\"http://parent.lra\"," +
+                "\"clientId\":\"clientId\"," +
+                "\"timeout\":30000," +
+                "\"nestedLRAs\":[]" +
+                "}";
+
+        ObjectMapper mapper = new ObjectMapper();
+        Assert.assertEquals(expected, mapper.writeValueAsString(lra));
+    }
+
 }

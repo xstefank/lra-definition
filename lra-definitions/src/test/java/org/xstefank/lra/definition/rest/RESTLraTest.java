@@ -6,7 +6,6 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.xstefank.lra.model.ActionResult;
 
 import static org.xstefank.lra.definition.TestUtil.dummyAction;
 
@@ -24,7 +23,16 @@ public class RESTLraTest {
                 .callback("http://testLocal.org")
                 .build();
 
-        String expected = "{\"name\":\"testLRA\",\"actions\":[{}],\"data\":42,\"callbackURL\":\"http://testLocal.org\",\"nestedLRAs\":[]}";
+        String expected = "{" +
+                "\"name\":\"testLRA\"," +
+                "\"actions\":[{}]," +
+                "\"data\":42," +
+                "\"parentLRA\":null," +
+                "\"clientId\":\"\"," +
+                "\"timeout\":0," +
+                "\"callbackURL\":\"http://testLocal.org\"," +
+                "\"nestedLRAs\":[]" +
+                "}";
 
         ObjectMapper mapper = new ObjectMapper();
         Assert.assertEquals(expected, mapper.writeValueAsString(lra));

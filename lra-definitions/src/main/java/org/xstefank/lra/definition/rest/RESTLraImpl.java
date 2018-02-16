@@ -10,8 +10,9 @@ public class RESTLraImpl extends LRADefinitionImpl implements RESTLra{
 
     private String callbackURL;
 
-    public RESTLraImpl(String name, List<Action> actions, Object data, List<LRADefinition> nested, String callbackURL) {
-        super(name, actions, data, nested);
+    public RESTLraImpl(String name, List<Action> actions, Object data, List<LRADefinition> nested,
+                       String parentLRA, String clientId, long timeout, String callbackURL) {
+        super(name, actions, data, nested, parentLRA, clientId, timeout);
 
         if (callbackURL == null) {
             throw new IllegalArgumentException("Callback address cannot be null");

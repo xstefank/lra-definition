@@ -14,8 +14,17 @@ public class LRADefinitionImpl implements LRADefinition {
     private List<Action> actions;
     private Object data;
     private List<LRADefinition> nested;
+    private String parentLRA;
+    private String clientId;
+    private long timeout;
 
-    public LRADefinitionImpl(String name, List<Action> actions, Object data, List<LRADefinition> nested) {
+    public LRADefinitionImpl(String name, List<Action> actions, Object data, List<LRADefinition> nested,
+                             String parentLRA, String clientId, long timeout) {
+
+        if (clientId == null) {
+            clientId = "";
+        }
+
         if (actions == null || actions.size() == 0) {
             throw new IllegalArgumentException("Cannot create LRA without any action specification");
         }
@@ -24,6 +33,9 @@ public class LRADefinitionImpl implements LRADefinition {
         this.actions = actions;
         this.data = data;
         this.nested = nested;
+        this.parentLRA = parentLRA;
+        this.clientId = clientId;
+        this.timeout = timeout;
     }
 
     @Override
@@ -44,6 +56,21 @@ public class LRADefinitionImpl implements LRADefinition {
     @Override
     public List<LRADefinition> getNestedLRAs() {
         return nested;
+    }
+
+    @Override
+    public String getParentLRA() {
+        return parentLRA;
+    }
+
+    @Override
+    public String getClientId() {
+        return clientId;
+    }
+
+    @Override
+    public long getTimeout() {
+        return timeout;
     }
 
     @Override
