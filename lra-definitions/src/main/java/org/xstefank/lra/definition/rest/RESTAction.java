@@ -1,7 +1,5 @@
 package org.xstefank.lra.definition.rest;
 
-import io.narayana.lra.client.LRAClient;
-import io.narayana.lra.client.NarayanaLRAClient;
 import org.jboss.logging.Logger;
 import org.xstefank.lra.definition.Action;
 import org.xstefank.lra.model.ActionResult;
@@ -47,7 +45,7 @@ public class RESTAction implements Action {
         log.info("action request url - " + build);
         WebTarget target = client.target(build);
 
-        Response response = target.request().header(NarayanaLRAClient.LRA_HTTP_HEADER, lraId).post(Entity.json(data));
+        Response response = target.request().header("Long-Running-Action", lraId).post(Entity.json(data));
 
         ActionResult result = response.getStatus() == Response.Status.OK.getStatusCode() ?
                 ActionResult.success() : ActionResult.failure();
