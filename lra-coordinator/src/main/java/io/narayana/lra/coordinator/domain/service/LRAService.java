@@ -35,6 +35,7 @@ import io.narayana.lra.coordinator.internal.Implementations;
 import io.narayana.lra.coordinator.internal.LRARecoveryModule;
 import io.narayana.lra.coordinator.domain.model.LRAStatus;
 import io.narayana.lra.coordinator.domain.model.Transaction;
+import org.xstefank.lra.definition.rest.RESTLra;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Destroyed;
@@ -198,47 +199,20 @@ public class LRAService {
         }
     }
 
-    private ExecutorService executor = Executors.newCachedThreadPool();
 
-    public synchronized URL startLRAAsync(String baseUri, URL parentLRA, String clientId, Long timelimit) {
+    public synchronized URL startLRAAsync(RESTLra definition, String baseUri, URL parentLRA, String clientId, Long timelimit) {
         //TODO persist LRA before return
 
-        Transaction lra;
+        // start LRA traditionally
+        URL lra = startLRA(baseUri, parentLRA, clientId, timelimit);
 
-        try {
-            lra = new Transaction(this, baseUri, parentLRA, clientId);
-        } catch (MalformedURLException e) {
-            throw new InvalidLRAIdException(baseUri, "Invalid base uri", e);
-        }
+        // enlist caller as participant
+        lraClient.joinLRA(lra, 0L, definition.getCallbackURL(), null);
 
-        executor.submit(() -> {
-            if (lra.currentLRA() != null)
-                if (LRALogger.logger.isInfoEnabled())
-                    LRALogger.logger.infof("LRAServicve.startLRA LRA %s is already associated%n",
-                            lra.currentLRA().get_uid().fileStringForm());
+        //TODO exec definition in executor
 
-            int status = lra.begin(timelimit);
+        return lra;
 
-            if (status != ActionStatus.RUNNING) {
-                lraTrace(lra.getId(), "failed to start LRA");
-
-                lra.abort();
-
-                throw new InternalServerErrorException("Could not start LRA: " + ActionStatus.stringForm(status));
-            } else {
-                try {
-                    addTransaction(lra);
-
-                    lraTrace(lra.getId(), "started LRA");
-
-                    return lra.getId();
-                } finally {
-                    AtomicAction.suspend();
-                }
-            }
-        });
-
-        return lra.getId();
     }
 
     public LRAStatus endLRA(URL lraId, boolean compensate, boolean fromHierarchy) {
@@ -286,15 +260,15 @@ public class LRAService {
     }
 
     public String joinLRA(URL lraId, Long timelimit,
-                   URL compensateUrl, URL completeUrl, URL forgetUrl, URL leaveUrl, URL statusUrl,
-                   String compensatorData) throws GenericLRAException {
+                          URL compensateUrl, URL completeUrl, URL forgetUrl, URL leaveUrl, URL statusUrl,
+                          String compensatorData) throws GenericLRAException {
         return lraClient.joinLRA(lraId, timelimit, compensateUrl, completeUrl, forgetUrl, leaveUrl, statusUrl, compensatorData);
     }
 
     public synchronized int joinLRA(StringBuilder recoveryUrl, URL lra, long timeLimit,
                                     String compensatorUrl, String linkHeader, String recoveryUrlBase,
                                     String compensatorData) {
-        if (lra ==  null)
+        if (lra == null)
             lraTrace(null, "Error missing LRA header in join request");
 
         lraTrace(lra, "join LRA");
@@ -402,5 +376,6 @@ public class LRAService {
         lraRecoveryModule = null;
 
         if (LRALogger.logger.isDebugEnabled())
-            LRALogger.logger.debugf("LRAServicve.disableRecovery%n");    }
+            LRALogger.logger.debugf("LRAServicve.disableRecovery%n");
+    }
 }

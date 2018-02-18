@@ -249,7 +249,7 @@ public class Coordinator {
             parentLRAUrl = NarayanaLRAClient.lraToURL(parentLRA, "Invalid parent LRA id");
 
         String coordinatorUrl = String.format("%s%s", context.getBaseUri(), COORDINATOR_PATH_NAME);
-        URL lraId = lraService.startLRAAsync(coordinatorUrl, parentLRAUrl, lra.getClientId(), lra.getTimeout());
+        URL lraId = lraService.startLRAAsync(lra, coordinatorUrl, parentLRAUrl, lra.getClientId(), lra.getTimeout());
 
         if (parentLRAUrl != null) {
             // register with the parentLRA as a participant
