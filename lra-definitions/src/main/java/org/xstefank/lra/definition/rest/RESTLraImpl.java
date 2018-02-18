@@ -1,11 +1,15 @@
 package org.xstefank.lra.definition.rest;
 
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.xstefank.lra.definition.Action;
 import org.xstefank.lra.definition.LRADefinition;
 import org.xstefank.lra.definition.LRADefinitionImpl;
 
 import java.util.List;
 
+@ToString
+@NoArgsConstructor
 public class RESTLraImpl extends LRADefinitionImpl implements RESTLra{
 
     private String callbackURL;
