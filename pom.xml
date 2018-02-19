@@ -15,6 +15,7 @@
         <module>lra-definitions</module>
         <module>lra-executor</module>
         <module>lra-client</module>
+        <module>lra-rest</module>
     </modules>
 
     <properties>
