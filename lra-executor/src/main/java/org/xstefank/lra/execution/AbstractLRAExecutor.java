@@ -7,6 +7,8 @@ import org.xstefank.lra.model.ActionResult;
 import org.xstefank.lra.model.LRAData;
 import org.xstefank.lra.model.Result;
 
+import java.net.URL;
+
 public abstract class AbstractLRAExecutor implements LRAExecutor {
 
     private static final Logger log = Logger.getLogger(AbstractLRAExecutor.class);
@@ -15,9 +17,8 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
     public void executeLRA(LRADefinition lraDefinition) {
         log.infof("Processing LRA %s", lraDefinition);
 
-        //TODO let subclasses start LRA?
-//        URL lraUrlId = startLRA(baseUri);
-//        Object info = lra.getInfo();
+        URL lraUrlId = startLRA();
+
         String lraId = "stub";
         LRAData data = new LRAData(lraId, lraDefinition.getData());
 
@@ -36,6 +37,8 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
     protected ActionResult executeAction(Action action, LRAData data) {
         return action.invoke(data);
     }
+
+    protected abstract URL startLRA();
 
     protected abstract void compensateLRA();
 

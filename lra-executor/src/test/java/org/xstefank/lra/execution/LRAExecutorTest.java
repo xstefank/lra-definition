@@ -8,6 +8,8 @@ import org.xstefank.lra.definition.LRABuilder;
 import org.xstefank.lra.definition.LRADefinition;
 import org.xstefank.lra.model.ActionResult;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class LRAExecutorTest {
@@ -72,6 +74,17 @@ public class LRAExecutorTest {
 
         public void executeLRA() {
             super.executeLRA(definition);
+        }
+
+        @Override
+        protected URL startLRA() {
+            try {
+                return new URL("http://stub.url");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+            return null;
         }
 
         @Override
