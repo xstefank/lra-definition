@@ -1,6 +1,7 @@
 package org.xstefank.lra.definition;
 
 import org.xstefank.lra.model.ActionResult;
+import org.xstefank.lra.model.LRAData;
 
 @FunctionalInterface
 public interface Action {
@@ -9,10 +10,9 @@ public interface Action {
      * The invocation of the work that is to be performed
      * by the action
      *
-     * @param lraId the id of the enclosing LRA
-     * @param data optional LRA data
+     * @param lraData LRA data associated with parent LRA
      * @return the result of the action invocation
      */
-    ActionResult invoke(String lraId, Object data);
+    ActionResult invoke(LRAData lraData);
 
 }

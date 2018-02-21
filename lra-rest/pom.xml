@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>org.xstefank.lra</groupId>
-            <artifactId>lra-definitions</artifactId>
+            <artifactId>lra-executor</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

@@ -5,6 +5,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.xstefank.lra.model.ActionResult;
+import org.xstefank.lra.model.LRAData;
 
 public class LRADefinitionTest {
 
@@ -55,7 +56,7 @@ public class LRADefinitionTest {
         }
 
         @Override
-        public ActionResult invoke(String lraId, Object data) {
+        public ActionResult invoke(LRAData lraData) {
             System.out.println(getName() + "invocation");
             return ActionResult.success();
         }

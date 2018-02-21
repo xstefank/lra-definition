@@ -3,6 +3,7 @@ package org.xstefank.lra.definition.rest;
 import org.jboss.logging.Logger;
 import org.xstefank.lra.definition.Action;
 import org.xstefank.lra.model.ActionResult;
+import org.xstefank.lra.model.LRAData;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -29,7 +30,7 @@ public class RESTAction implements Action {
     }
 
     @Override
-    public ActionResult invoke(String lraId, Object data) {
+    public ActionResult invoke(LRAData lraData) {
         log.infof("executing action - %s", this);
 
         Client client = ClientBuilder.newClient();
@@ -45,7 +46,7 @@ public class RESTAction implements Action {
         log.info("action request url - " + build);
         WebTarget target = client.target(build);
 
-        Response response = target.request().header("Long-Running-Action", lraId).post(Entity.json(data));
+        Response response = target.request().header("Long-Running-Action", lraData.getLraId()).post(Entity.json(lraData.getData()));
 
         ActionResult result = response.getStatus() == Response.Status.OK.getStatusCode() ?
                 ActionResult.success() : ActionResult.failure();

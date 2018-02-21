@@ -5,6 +5,6 @@ import org.xstefank.lra.model.ActionResult;
 public class TestUtil {
 
     public static Action dummyAction() {
-        return (id, d) -> ActionResult.success();
+        return d -> ActionResult.success();
     }
 }

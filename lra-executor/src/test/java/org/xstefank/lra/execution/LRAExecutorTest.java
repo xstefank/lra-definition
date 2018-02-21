@@ -31,7 +31,7 @@ public class LRAExecutorTest {
     public void testSimpleExecution() {
         definition = LRABuilder.lra()
                 .name("test LRA")
-                .withAction((id, d) -> {
+                .withAction(d -> {
                     counter.getAndIncrement();
                     return ActionResult.success();
                 })
@@ -50,7 +50,7 @@ public class LRAExecutorTest {
     public void testExecutionFailure() {
         definition = LRABuilder.lra()
                 .name("test LRA")
-                .withAction((id, d) -> ActionResult.failure())
+                .withAction(d -> ActionResult.failure())
                 .data(new StringBuilder("mutable"))
                 .build();
 
