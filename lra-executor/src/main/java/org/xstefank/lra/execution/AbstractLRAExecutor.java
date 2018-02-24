@@ -17,7 +17,7 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
     public void executeLRA(LRADefinition lraDefinition) {
         log.infof("Processing LRA %s", lraDefinition);
 
-        URL lraUrlId = startLRA();
+        URL lraUrlId = startLRA(lraDefinition);
 
         String lraId = "stub";
         LRAData data = new LRAData(lraId, lraDefinition.getData());
@@ -38,7 +38,7 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
         return action.invoke(data);
     }
 
-    protected abstract URL startLRA();
+    public abstract URL startLRA(LRADefinition lra);
 
     protected abstract void compensateLRA();
 

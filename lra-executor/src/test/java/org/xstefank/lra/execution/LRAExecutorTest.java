@@ -16,7 +16,6 @@ public class LRAExecutorTest {
 
     private LRADefinition definition;
     private AtomicInteger counter;
-    private LRAExecutor lraExecutor;
 
     @Before
     public void before() {
@@ -77,7 +76,7 @@ public class LRAExecutorTest {
         }
 
         @Override
-        protected URL startLRA() {
+        public URL startLRA(LRADefinition lra) {
             try {
                 return new URL("http://stub.url");
             } catch (MalformedURLException e) {

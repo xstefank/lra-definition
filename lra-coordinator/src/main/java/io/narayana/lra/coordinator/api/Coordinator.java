@@ -25,6 +25,7 @@ import io.narayana.lra.client.GenericLRAException;
 import io.narayana.lra.coordinator.domain.model.LRAStatus;
 import io.narayana.lra.coordinator.domain.model.Transaction;
 import io.narayana.lra.coordinator.domain.service.LRAService;
+import io.narayana.lra.coordinator.executor.RestLRAExecutor;
 import io.narayana.lra.logging.LRALogger;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -242,36 +243,12 @@ public class Coordinator {
     @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
     public Response startLRAWithDefinition(RESTLra lra) {
 
-        URL parentLRAUrl = null;
-
-        String parentLRA = lra.getParentLRA();
-        if (parentLRA != null && !parentLRA.isEmpty())
-            parentLRAUrl = NarayanaLRAClient.lraToURL(parentLRA, "Invalid parent LRA id");
-
-        String coordinatorUrl = String.format("%s%s", context.getBaseUri(), COORDINATOR_PATH_NAME);
-        URL lraId = lraService.startLRAAsync(lra, coordinatorUrl, parentLRAUrl, lra.getClientId(), lra.getTimeout());
-
-        if (parentLRAUrl != null) {
-            // register with the parentLRA as a participant
-            Client client = ClientBuilder.newClient();
-            String compensatorUrl = String.format("%s/%s", coordinatorUrl,
-                    NarayanaLRAClient.encodeURL(lraId, "Invalid parent LRA id"));
-            Response response;
-
-            if (lraService.hasTransaction(parentLRAUrl))
-                response = joinLRAViaBody(parentLRAUrl.toExternalForm(), lra.getTimeout(), null, compensatorUrl);
-            else
-                response = client.target(parentLRA).request().put(Entity.text(compensatorUrl));
-
-            if (response.getStatus() != Response.Status.OK.getStatusCode())
-                return response;
-        }
-
-        Current.push(lraId);
+        RestLRAExecutor lraExecutor = new RestLRAExecutor(context.getBaseUri().toString());
+        lraExecutor.executeLRA(lra);
 
         return Response.status(Response.Status.CREATED)
-                .entity(lraId)
-                .header(LRA_HTTP_HEADER, lraId)
+                .entity("lra id stub")
+                .header(LRA_HTTP_HEADER, "lra id stub")
                 .build();
     }
 
