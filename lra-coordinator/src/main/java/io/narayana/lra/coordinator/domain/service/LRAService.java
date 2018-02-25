@@ -35,7 +35,6 @@ import io.narayana.lra.coordinator.internal.Implementations;
 import io.narayana.lra.coordinator.internal.LRARecoveryModule;
 import io.narayana.lra.coordinator.domain.model.LRAStatus;
 import io.narayana.lra.coordinator.domain.model.Transaction;
-import org.xstefank.lra.definition.rest.RESTLra;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Destroyed;
@@ -51,8 +50,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -199,22 +196,6 @@ public class LRAService {
         }
     }
 
-
-    public synchronized URL startLRAAsync(RESTLra definition, String baseUri, URL parentLRA, String clientId, Long timelimit) {
-        //TODO persist LRA before return
-
-        // start LRA traditionally
-        URL lra = startLRA(baseUri, parentLRA, clientId, timelimit);
-
-        // enlist caller as participant
-        lraClient.joinLRA(lra, 0L, definition.getCallbackURL(), null);
-
-        //TODO exec definition in executor
-
-        return lra;
-
-    }
-
     public LRAStatus endLRA(URL lraId, boolean compensate, boolean fromHierarchy) {
         lraTrace(lraId, "end LRA");
 
@@ -260,15 +241,15 @@ public class LRAService {
     }
 
     public String joinLRA(URL lraId, Long timelimit,
-                          URL compensateUrl, URL completeUrl, URL forgetUrl, URL leaveUrl, URL statusUrl,
-                          String compensatorData) throws GenericLRAException {
+                   URL compensateUrl, URL completeUrl, URL forgetUrl, URL leaveUrl, URL statusUrl,
+                   String compensatorData) throws GenericLRAException {
         return lraClient.joinLRA(lraId, timelimit, compensateUrl, completeUrl, forgetUrl, leaveUrl, statusUrl, compensatorData);
     }
 
     public synchronized int joinLRA(StringBuilder recoveryUrl, URL lra, long timeLimit,
                                     String compensatorUrl, String linkHeader, String recoveryUrlBase,
                                     String compensatorData) {
-        if (lra == null)
+        if (lra ==  null)
             lraTrace(null, "Error missing LRA header in join request");
 
         lraTrace(lra, "join LRA");
@@ -376,6 +357,5 @@ public class LRAService {
         lraRecoveryModule = null;
 
         if (LRALogger.logger.isDebugEnabled())
-            LRALogger.logger.debugf("LRAServicve.disableRecovery%n");
-    }
+            LRALogger.logger.debugf("LRAServicve.disableRecovery%n");    }
 }
