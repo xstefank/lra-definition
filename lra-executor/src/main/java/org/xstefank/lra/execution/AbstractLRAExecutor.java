@@ -9,7 +9,8 @@ import org.xstefank.lra.model.Result;
 
 import java.net.URL;
 
-public abstract class AbstractLRAExecutor implements LRAExecutor {
+@SuppressWarnings(value = "unchecked")
+public abstract class AbstractLRAExecutor<T extends Action> implements LRAExecutor {
 
     private static final Logger log = Logger.getLogger(AbstractLRAExecutor.class);
 
@@ -19,12 +20,12 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
 
         URL lraUrlId = startLRA(lraDefinition);
 
-        String lraId = "stub";
+        String lraId = startLRA(lraDefinition).toString();
         LRAData data = new LRAData(lraId, lraDefinition.getData());
 
         boolean needCompensation = lraDefinition.getActions().stream()
-                .map(a -> executeAction(a, data))
-                .anyMatch(x -> x.getResult().equals(Result.FAILURE));
+                .map(a -> executeAction((T) a, data))
+                .anyMatch(x -> ((ActionResult) x).getResult().equals(Result.FAILURE));
 
         if (!needCompensation) {
             completeLRA();
@@ -34,7 +35,7 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
 
     }
 
-    protected ActionResult executeAction(Action action, LRAData data) {
+    protected ActionResult executeAction(T action, LRAData data) {
         return action.invoke(data);
     }
 

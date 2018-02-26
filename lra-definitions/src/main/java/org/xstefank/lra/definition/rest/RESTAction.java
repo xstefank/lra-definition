@@ -1,5 +1,8 @@
 package org.xstefank.lra.definition.rest;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.jboss.logging.Logger;
 import org.xstefank.lra.definition.Action;
 import org.xstefank.lra.model.ActionResult;
@@ -15,11 +18,14 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+@ToString
+@NoArgsConstructor
 public class RESTAction implements Action {
 
     private Logger log = Logger.getLogger(RESTAction.class);
 
-    private final URL target;
+    @JsonProperty
+    private URL target;
 
     private RESTAction(URL target) {
         this.target = target;

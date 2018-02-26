@@ -2,7 +2,7 @@ package org.xstefank.lra.definition.rest;
 
 import org.xstefank.lra.definition.LRABuilder;
 
-public class RESTLraBuilder extends LRABuilder<RESTLraBuilder, RESTLra> {
+public class RESTLraBuilder extends LRABuilder<RESTLraBuilder, RESTLra, RESTAction> {
 
     private String callbackURL;
     private boolean subscribeCallerAsParticipant;

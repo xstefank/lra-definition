@@ -25,6 +25,7 @@ import io.narayana.lra.client.GenericLRAException;
 import io.narayana.lra.coordinator.domain.model.LRAStatus;
 import io.narayana.lra.coordinator.domain.model.Transaction;
 import io.narayana.lra.coordinator.domain.service.LRAService;
+import io.narayana.lra.coordinator.executor.RestLRAExecutor;
 import io.narayana.lra.logging.LRALogger;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -68,6 +69,8 @@ import java.util.List;
 import java.util.Map;
 
 import io.swagger.annotations.ApiOperation;
+import org.jboss.logging.Logger;
+import org.xstefank.lra.definition.rest.RESTLra;
 
 import static io.narayana.lra.client.NarayanaLRAClient.CLIENT_ID_PARAM_NAME;
 import static io.narayana.lra.client.NarayanaLRAClient.COORDINATOR_PATH_NAME;
@@ -232,6 +235,23 @@ public class Coordinator {
                 .entity(lraId)
                 .header(LRA_HTTP_HEADER, lraId)
                 .build();
+    }
+
+    private static final Logger log = Logger.getLogger(Coordinator.class);
+
+    @POST
+    @Path("start-definition")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
+    public Response startLRAWithDefinition(RESTLra lra) {
+        log.info("Received LRA " + lra);
+
+        new RestLRAExecutor(context.getBaseUri(), lraService).executeLRA(lra);
+
+        return Response.status(Response.Status.CREATED)
+                .entity("test lra without id")
+                .header(LRA_HTTP_HEADER, "test lra")
+                .build();
+
     }
 
     @PUT

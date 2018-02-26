@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings(value = "unchecked")
-public class LRABuilder<T extends LRABuilder, U extends LRADefinition> {
+public class LRABuilder<T extends LRABuilder, U extends LRADefinition, V extends Action> {
 
     protected String name;
-    protected List<Action> actions = new ArrayList<>();
+    protected List<V> actions = new ArrayList<>();
     protected Object data;
     protected List<LRADefinition> nested = new ArrayList<>();
     protected String parentLRA;
@@ -28,7 +28,7 @@ public class LRABuilder<T extends LRABuilder, U extends LRADefinition> {
         return (T) this;
     }
 
-    public T withAction(Action action) {
+    public T withAction(V action) {
         this.actions.add(action);
         return (T) this;
     }
@@ -38,7 +38,7 @@ public class LRABuilder<T extends LRABuilder, U extends LRADefinition> {
         return (T) this;
     }
 
-    public NestedLRABuilder<T, U> nested() {
+    public NestedLRABuilder<T, U, V> nested() {
         return new NestedLRABuilder(this);
     }
 

@@ -8,17 +8,17 @@ import java.util.List;
 
 @ToString
 @NoArgsConstructor
-public class LRADefinitionImpl implements LRADefinition {
+public class LRADefinitionImpl<T extends Action> implements LRADefinition {
 
     private String name;
-    private List<Action> actions;
+    private List<T> actions;
     private Object data;
     private List<LRADefinition> nested;
     private String parentLRA;
     private String clientId;
     private long timeout;
 
-    public LRADefinitionImpl(String name, List<Action> actions, Object data, List<LRADefinition> nested,
+    public LRADefinitionImpl(String name, List<T> actions, Object data, List<LRADefinition> nested,
                              String parentLRA, String clientId, long timeout) {
 
         if (clientId == null) {
@@ -44,7 +44,7 @@ public class LRADefinitionImpl implements LRADefinition {
     }
 
     @Override
-    public List<Action> getActions() {
+    public List<T> getActions() {
         return Collections.unmodifiableList(actions);
     }
 
@@ -55,7 +55,7 @@ public class LRADefinitionImpl implements LRADefinition {
 
     @Override
     public List<LRADefinition> getNestedLRAs() {
-        return nested;
+        return nested != null ? nested : Collections.emptyList();
     }
 
     @Override

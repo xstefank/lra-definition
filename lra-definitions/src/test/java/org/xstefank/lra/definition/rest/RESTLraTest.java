@@ -1,13 +1,13 @@
 package org.xstefank.lra.definition.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static org.xstefank.lra.definition.TestUtil.dummyAction;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class RESTLraTest {
 
@@ -15,17 +15,17 @@ public class RESTLraTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     @Test
-    public void testJsonWithCallback() throws JsonProcessingException {
+    public void testJsonWithCallback() throws Exception {
         RESTLra lra = RESTLraBuilder.lra()
                 .name("testLRA")
-                .withAction(dummyAction())
+                .withAction(RESTAction.post(new URL("http://stub.com")))
                 .data(42)
                 .callback("http://testLocal.org")
                 .build();
 
         String expected = "{" +
                 "\"name\":\"testLRA\"," +
-                "\"actions\":[{}]," +
+                "\"actions\":[{\"target\":\"http://stub.com\"}]," +
                 "\"data\":42," +
                 "\"parentLRA\":null," +
                 "\"clientId\":\"\"," +
@@ -40,12 +40,12 @@ public class RESTLraTest {
     }
 
     @Test
-    public void testJsonWithNullCallback() {
+    public void testJsonWithNullCallback() throws MalformedURLException {
         expectedException.expect(IllegalArgumentException.class);
 
         RESTLra lra = RESTLraBuilder.lra()
                 .name("testLRA")
-                .withAction(dummyAction())
+                .withAction(RESTAction.post(new URL("http://stub.com")))
                 .build();
     }
 }
