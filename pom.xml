@@ -63,36 +63,6 @@
 
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>lra-coordinator</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>Download lra-coordinator</id>
-                                <inherited>false</inherited>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <environmentVariables>
-                                        <NARAYANA_VERSION>${version.org.jboss.narayana}</NARAYANA_VERSION>
-                                    </environmentVariables>
-                                    <executable>${project.basedir}/lra_coordinator.sh</executable>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <build>
         <plugins>
             <plugin>
