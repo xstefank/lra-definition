@@ -18,7 +18,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-@ToString
+@ToString(callSuper = true)
 @NoArgsConstructor
 public class RESTAction implements Action {
 
@@ -52,7 +52,10 @@ public class RESTAction implements Action {
         log.info("action request url - " + build);
         WebTarget target = client.target(build);
 
-        Response response = target.request().header("Long-Running-Action", lraData.getLraId()).post(Entity.json(lraData.getData()));
+        log.info("lra id - " + lraData.getLraId());
+        Response response = target.request()
+                .header("Long-Running-Action", lraData.getLraId())
+                .post(Entity.json(lraData.getData()));
 
         ActionResult result = response.getStatus() == Response.Status.OK.getStatusCode() ?
                 ActionResult.success() : ActionResult.failure();
