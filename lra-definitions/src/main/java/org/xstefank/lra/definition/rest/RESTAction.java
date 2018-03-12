@@ -1,5 +1,6 @@
 package org.xstefank.lra.definition.rest;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -22,6 +23,7 @@ import java.net.URL;
 @NoArgsConstructor
 public class RESTAction implements Action {
 
+    @JsonIgnore
     private Logger log = Logger.getLogger(RESTAction.class);
 
     @JsonProperty
