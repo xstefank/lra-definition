@@ -87,12 +87,12 @@ public class LRAExecutorTest {
         }
 
         @Override
-        protected void compensateLRA() {
+        protected void compensateLRA(URL lraId) {
             ((StringBuilder) definition.getData()).append(" failure");
         }
 
         @Override
-        protected void completeLRA() {
+        protected void completeLRA(URL lraId) {
             ((StringBuilder) definition.getData()).append(" success");
         }
     }

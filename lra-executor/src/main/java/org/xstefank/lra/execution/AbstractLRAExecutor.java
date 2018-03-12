@@ -18,9 +18,7 @@ public abstract class AbstractLRAExecutor<T extends Action> implements LRAExecut
     public void executeLRA(LRADefinition lraDefinition) {
         log.infof("Processing LRA %s", lraDefinition);
 
-        URL lraUrlId = startLRA(lraDefinition);
-
-        String lraId = startLRA(lraDefinition).toString();
+        URL lraId = startLRA(lraDefinition);
         LRAData data = new LRAData(lraId, lraDefinition.getData());
 
         boolean needCompensation = lraDefinition.getActions().stream()
@@ -28,9 +26,9 @@ public abstract class AbstractLRAExecutor<T extends Action> implements LRAExecut
                 .anyMatch(x -> ((ActionResult) x).getResult().equals(Result.FAILURE));
 
         if (!needCompensation) {
-            completeLRA();
+            completeLRA(lraId);
         } else {
-            compensateLRA();
+            compensateLRA(lraId);
         }
 
     }
@@ -41,7 +39,7 @@ public abstract class AbstractLRAExecutor<T extends Action> implements LRAExecut
 
     public abstract URL startLRA(LRADefinition lra);
 
-    protected abstract void compensateLRA();
+    protected abstract void compensateLRA(URL lraId);
 
-    protected abstract void completeLRA();
+    protected abstract void completeLRA(URL lraId);
 }

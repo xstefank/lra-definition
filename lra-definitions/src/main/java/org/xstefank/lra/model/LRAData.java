@@ -3,19 +3,21 @@ package org.xstefank.lra.model;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.net.URL;
+
 @NoArgsConstructor
 @ToString
 public class LRAData {
 
-    private String lraId;
+    private URL lraId;
     private Object data;
 
-    public LRAData(String lraId, Object data) {
+    public LRAData(URL lraId, Object data) {
         this.lraId = lraId;
         this.data = data;
     }
 
-    public String getLraId() {
+    public URL getLraId() {
         return lraId;
     }
 
