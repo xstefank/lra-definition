@@ -15,10 +15,9 @@ public abstract class AbstractLRAExecutor<T extends Action> implements LRAExecut
     private static final Logger log = Logger.getLogger(AbstractLRAExecutor.class);
 
     @Override
-    public void executeLRA(LRADefinition lraDefinition) {
-        log.infof("Processing LRA %s", lraDefinition);
+    public void executeLRA(URL lraId, LRADefinition lraDefinition) {
+        log.infof("Processing LRA %s with definition: ", lraId, lraDefinition);
 
-        URL lraId = startLRA(lraDefinition);
         LRAData data = new LRAData(lraId, lraDefinition.getData());
 
         boolean needCompensation = lraDefinition.getActions().stream()
@@ -36,8 +35,6 @@ public abstract class AbstractLRAExecutor<T extends Action> implements LRAExecut
     protected ActionResult executeAction(T action, LRAData data) {
         return action.invoke(data);
     }
-
-    public abstract URL startLRA(LRADefinition lra);
 
     protected abstract void compensateLRA(URL lraId);
 

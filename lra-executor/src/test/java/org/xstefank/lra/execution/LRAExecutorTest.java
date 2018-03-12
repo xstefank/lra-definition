@@ -72,20 +72,13 @@ public class LRAExecutorTest {
         }
 
         public void executeLRA() {
-            super.executeLRA(definition);
-        }
-
-        @Override
-        public URL startLRA(LRADefinition lra) {
             try {
-                return new URL("http://stub.url");
+                super.executeLRA(new URL("http://stub.lra"), definition);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-
-            return null;
         }
-
+        
         @Override
         protected void compensateLRA(URL lraId) {
             ((StringBuilder) definition.getData()).append(" failure");
