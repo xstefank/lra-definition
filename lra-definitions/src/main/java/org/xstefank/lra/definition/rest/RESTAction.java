@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.jboss.logging.Logger;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.xstefank.lra.definition.Action;
 import org.xstefank.lra.model.ActionResult;
 import org.xstefank.lra.model.LRAData;
 
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -41,7 +41,7 @@ public class RESTAction implements Action {
     public ActionResult invoke(LRAData lraData) {
         log.infof("executing action - %s", this);
 
-        Client client = ClientBuilder.newClient();
+        Client client = ResteasyClientBuilder.newClient();
         URI build = null;
         try {
             build = UriBuilder

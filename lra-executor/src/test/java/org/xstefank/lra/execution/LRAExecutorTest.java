@@ -78,7 +78,7 @@ public class LRAExecutorTest {
                 e.printStackTrace();
             }
         }
-        
+
         @Override
         protected void compensateLRA(URL lraId) {
             ((StringBuilder) definition.getData()).append(" failure");
