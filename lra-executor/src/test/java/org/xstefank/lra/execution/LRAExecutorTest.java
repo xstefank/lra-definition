@@ -71,12 +71,20 @@ public class LRAExecutorTest {
             this.definition = definition;
         }
 
+        @SuppressWarnings(value = "unchecked")
         public void executeLRA() {
+            super.executeLRA(definition);
+        }
+
+        @Override
+        protected URL startLRA(LRADefinition lraDefinition) {
             try {
-                super.executeLRA(new URL("http://stub.lra"), definition);
+                return new URL("http://stub.lra");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
+
+            return null;
         }
 
         @Override

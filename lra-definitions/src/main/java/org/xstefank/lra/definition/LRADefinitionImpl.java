@@ -1,5 +1,6 @@
 package org.xstefank.lra.definition;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -10,6 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 public class LRADefinitionImpl<T extends Action> implements LRADefinition {
 
+    //type information in this class is required only for the JSON processing purposes
+    //TODO associate Action type information in JSON to process different actions in one LRA
     private String name;
     private List<T> actions;
     private Object data;
@@ -44,7 +47,12 @@ public class LRADefinitionImpl<T extends Action> implements LRADefinition {
     }
 
     @Override
-    public List<T> getActions() {
+    public List<Action> getActions() {
+        return Collections.unmodifiableList(actions);
+    }
+
+    @JsonIgnore
+    public List<T> getTypedActions() {
         return Collections.unmodifiableList(actions);
     }
 

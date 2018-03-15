@@ -33,6 +33,14 @@ public class ActionResult {
         return new ActionResult(Result.FAILURE, ex.getMessage());
     }
 
+    public boolean isSuccess() {
+        return result.equals(Result.SUCCESS);
+    }
+
+    public boolean isFailure() {
+        return result.equals(Result.FAILURE);
+    }
+
     public Result getResult() {
         return result;
     }

@@ -7,7 +7,7 @@ import java.util.List;
 
 @JsonSerialize(as = LRADefinitionImpl.class)
 @JsonDeserialize(as = LRADefinitionImpl.class)
-public interface LRADefinition<T extends Action> {
+public interface LRADefinition {
 
     /**
      * Provides a simple human readable name of the LRA
@@ -17,7 +17,7 @@ public interface LRADefinition<T extends Action> {
     /**
      * The list of actions that the LRA consists of
      */
-    List<T> getActions();
+    List<Action> getActions();
 
     /**
      * Optional data associated with the LRA
@@ -27,7 +27,7 @@ public interface LRADefinition<T extends Action> {
     /**
      * The list of nested LRA definitions
      */
-    List<LRADefinition<T>> getNestedLRAs();
+    List<LRADefinition> getNestedLRAs();
 
     String getParentLRA();
 
