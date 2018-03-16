@@ -7,9 +7,12 @@ import org.junit.Test;
 import org.xstefank.lra.definition.LRABuilder;
 import org.xstefank.lra.definition.LRADefinition;
 import org.xstefank.lra.model.ActionResult;
+import org.xstefank.lra.model.LRAResult;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class LRAExecutorTest {
@@ -29,7 +32,7 @@ public class LRAExecutorTest {
     }
 
     @Test
-    public void testSimpleExecution() {
+    public void testSimpleExecution() throws ExecutionException, InterruptedException {
         definition = LRABuilder.lra()
                 .name("test LRA")
                 .withAction(d -> {
@@ -40,7 +43,9 @@ public class LRAExecutorTest {
                 .build();
 
         LRAExecutorStub lraExecutor = new LRAExecutorStub(definition);
-        lraExecutor.executeLRA();
+        Future<LRAResult> future = lraExecutor.executeLRAAsync(definition);
+
+        LRAResult lraResult = future.get();
 
         Assert.assertEquals(1, counter.get());
         Assert.assertEquals("mutable success", ((StringBuilder) definition.getData()).toString());
@@ -48,7 +53,7 @@ public class LRAExecutorTest {
     }
 
     @Test
-    public void testExecutionFailure() {
+    public void testExecutionFailure() throws InterruptedException, ExecutionException {
         definition = LRABuilder.lra()
                 .name("test LRA")
                 .withAction(d -> ActionResult.failure())
@@ -56,7 +61,9 @@ public class LRAExecutorTest {
                 .build();
 
         LRAExecutorStub lraExecutor = new LRAExecutorStub(definition);
-        lraExecutor.executeLRA();
+        Future<LRAResult> future = lraExecutor.executeLRAAsync(definition);
+
+        LRAResult lraResult = future.get();
 
         Assert.assertEquals(0, counter.get());
         Assert.assertEquals("mutable failure", ((StringBuilder) definition.getData()).toString());
@@ -71,13 +78,8 @@ public class LRAExecutorTest {
             this.definition = definition;
         }
 
-        @SuppressWarnings(value = "unchecked")
-        public void executeLRA() {
-            super.executeLRA(definition);
-        }
-
         @Override
-        protected URL startLRA(LRADefinition lraDefinition) {
+        public URL startLRA(LRADefinition lraDefinition) {
             try {
                 return new URL("http://stub.lra");
             } catch (MalformedURLException e) {

@@ -1,15 +1,27 @@
 package org.xstefank.lra.execution;
 
 import org.xstefank.lra.definition.LRADefinition;
+import org.xstefank.lra.model.LRAResult;
+
+import java.net.URL;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 
 public interface LRAExecutor {
 
     /**
-     * Processed the LRA in order defined by the action list
+     * Starts and executes the LRA in order defined by the action list
      *
      * @param lraDefinition the definition of the LRA according to which it is to be executed
      */
-    void executeLRA(LRADefinition lraDefinition);
+    Future<LRAResult> executeLRAAsync(LRADefinition lraDefinition);
 
+    /**
+     * Starts new LRA
+     *
+     * @param lraDefinition the definition of LRA
+     * @return the LRA identification
+     */
+    URL startLRA(LRADefinition lraDefinition);
 }
