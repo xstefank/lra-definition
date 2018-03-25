@@ -20,22 +20,31 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 //TODO add data for request
-@ToString(callSuper = true)
+@ToString
 @NoArgsConstructor
 public class RESTAction implements Action {
 
     @JsonIgnore
     private Logger log = Logger.getLogger(RESTAction.class);
 
-    @JsonProperty
+    @JsonProperty(required = true)
     private URL target;
+
+    @JsonProperty
+    private URL callbackUrl;
 
     private RESTAction(URL target) {
         this.target = target;
+        this.callbackUrl = target;
     }
 
-    public static RESTAction post(URL target) {
-        return new RESTAction(target);
+    RESTAction(URL target, URL callbackUrl) {
+        this.target = target;
+        this.callbackUrl = callbackUrl != null ? callbackUrl : target;
+    }
+
+    public static RESTActionBuilder post(URL target) {
+        return new RESTActionBuilder(target);
     }
 
     @Override
@@ -67,7 +76,7 @@ public class RESTAction implements Action {
         return result;
     }
 
-    public URL getTarget() {
-        return target;
+    public URL getCallbackUrl() {
+        return callbackUrl;
     }
 }

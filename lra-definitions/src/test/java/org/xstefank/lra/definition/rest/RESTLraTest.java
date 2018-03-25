@@ -18,14 +18,14 @@ public class RESTLraTest {
     public void testJsonWithCallback() throws Exception {
         RESTLra lra = RESTLraBuilder.lra()
                 .name("testLRA")
-                .withAction(RESTAction.post(new URL("http://stub.com")))
+                .withAction(RESTAction.post(new URL("http://stub.com")).build())
                 .data(42)
                 .callback("http://testLocal.org")
                 .build();
 
         String expected = "{" +
                 "\"name\":\"testLRA\"," +
-                "\"actions\":[{\"target\":\"http://stub.com\"}]," +
+                "\"actions\":[{\"target\":\"http://stub.com\",\"callbackUrl\":\"http://stub.com\"}]," +
                 "\"data\":42," +
                 "\"parentLRA\":null," +
                 "\"clientId\":\"\"," +
@@ -45,7 +45,7 @@ public class RESTLraTest {
 
         RESTLra lra = RESTLraBuilder.lra()
                 .name("testLRA")
-                .withAction(RESTAction.post(new URL("http://stub.com")))
+                .withAction(RESTAction.post(new URL("http://stub.com")).build())
                 .build();
     }
 }
