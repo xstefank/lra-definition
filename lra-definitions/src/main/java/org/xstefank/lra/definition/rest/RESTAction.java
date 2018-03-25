@@ -19,6 +19,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+//TODO add data for request
 @ToString(callSuper = true)
 @NoArgsConstructor
 public class RESTAction implements Action {
@@ -64,5 +65,9 @@ public class RESTAction implements Action {
         response.close();
 
         return result;
+    }
+
+    public URL getTarget() {
+        return target;
     }
 }

@@ -20,6 +20,11 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
 
     private ExecutorService executorService = Executors.newFixedThreadPool(3);
 
+    @Override
+    public LRAResult executeLRA(LRADefinition lraDefinition) {
+        return execute(lraDefinition);
+    }
+
     /**
      * The default async implemetation submits the exectution to separate thread that calls
      * startLRA(LRADefinition) method which in that case may be invocated concurrently by several threads
@@ -28,34 +33,35 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
      */
     @Override
     public Future<LRAResult> executeLRAAsync(LRADefinition lraDefinition) {
-        return (Future<LRAResult>) executorService.submit(() -> {
-            log.infof("Processing LRA with definition: ", lraDefinition);
+        return executorService.submit(() -> execute(lraDefinition));
+    }
 
-            log.info("Starting LRA...");
-            URL lraId = startLRA(lraDefinition);
-            log.info("started LRA: " + lraId);
+    private LRAResult execute(LRADefinition lraDefinition) {
+        log.infof("Processing LRA with definition: ", lraDefinition);
 
-            LRAData data = new LRAData(lraId, lraDefinition.getData());
-            boolean needCompensation = false;
+        log.info("Starting LRA...");
+        URL lraId = startLRA(lraDefinition);
+        log.info("started LRA: " + lraId);
 
-            log.info("Executing LRA...");
-            for (Action action : lraDefinition.getActions()) {
-                ActionResult result = executeAction(action, data);
-                if (result.isFailure()) {
-                    needCompensation = true;
-                    break;
-                }
+        LRAData data = new LRAData(lraId, lraDefinition.getData());
+        boolean needCompensation = false;
+
+        log.info("Executing LRA...");
+        for (Action action : lraDefinition.getActions()) {
+            ActionResult result = executeAction(action, data);
+            if (result.isFailure()) {
+                needCompensation = true;
+                break;
             }
+        }
 
-            if (!needCompensation) {
-                completeLRA(lraId);
-                return new LRAResult(LRAOutcome.COMPLETED, lraDefinition);
-            } else {
-                compensateLRA(lraId);
-                return new LRAResult(LRAOutcome.COMPENSATED, lraDefinition);
-            }
-        });
-
+        if (!needCompensation) {
+            completeLRA(lraId);
+            return new LRAResult(LRAOutcome.COMPLETED, lraDefinition);
+        } else {
+            compensateLRA(lraId);
+            return new LRAResult(LRAOutcome.COMPENSATED, lraDefinition);
+        }
     }
 
     protected ActionResult executeAction(Action action, LRAData data) {
