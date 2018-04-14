@@ -11,11 +11,6 @@ public class RESTActionBuilder {
         this.target = target;
     }
 
-    public RESTActionBuilder target(URL target) {
-        this.target = target;
-        return this;
-    }
-
     public RESTActionBuilder callbackUrl(URL callbackUrl) {
         this.callbackUrl = callbackUrl;
         return this;
