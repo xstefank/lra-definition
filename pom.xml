@@ -13,6 +13,7 @@
     <modules>
         <module>lra-definitions</module>
         <module>lra-executor</module>
+        <module>lra-rest-definitions</module>
     </modules>
 
     <properties>

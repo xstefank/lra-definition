@@ -12,10 +12,9 @@ import java.util.List;
 public class RESTLraImpl extends LRADefinitionImpl<RESTAction> implements RESTLra {
 
     private String callbackURL;
-    private boolean subscribeCallerAsParticipant;
 
     public RESTLraImpl(String name, List<RESTAction> actions, Object data, List<LRADefinition> nested,
-                       String parentLRA, String clientId, long timeout, String callbackURL, boolean subscribeCallerAsParticipant) {
+                       String parentLRA, String clientId, long timeout, String callbackURL) {
         super(name, actions, data, nested, parentLRA, clientId, timeout);
 
         if (callbackURL == null) {
@@ -23,7 +22,6 @@ public class RESTLraImpl extends LRADefinitionImpl<RESTAction> implements RESTLr
         }
 
         this.callbackURL = callbackURL;
-        this.subscribeCallerAsParticipant = subscribeCallerAsParticipant;
     }
 
     @Override
@@ -31,8 +29,4 @@ public class RESTLraImpl extends LRADefinitionImpl<RESTAction> implements RESTLr
         return callbackURL;
     }
 
-    @Override
-    public boolean getSubscribeCallerAsParticipant() {
-        return subscribeCallerAsParticipant;
-    }
 }

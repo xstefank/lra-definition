@@ -16,13 +16,13 @@ public class RESTLraBuilder extends LRABuilder<RESTLraBuilder, RESTLra, RESTActi
         return this;
     }
 
-    public RESTLraBuilder subscrbeCallerAsParticipant() {
+    public RESTLraBuilder subscribeCallerAsParticipant() {
         this.subscribeCallerAsParticipant = true;
         return this;
     }
 
     @Override
     public RESTLra build() {
-        return new RESTLraImpl(name, actions, data, nested, parentLRA, clientId, timeout, callbackURL, subscribeCallerAsParticipant);
+        return new RESTLraImpl(name, actions, data, nested, parentLRA, clientId, timeout, callbackURL);
     }
 }

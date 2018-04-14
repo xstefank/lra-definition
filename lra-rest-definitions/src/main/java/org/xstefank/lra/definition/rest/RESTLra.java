@@ -20,7 +20,5 @@ public interface RESTLra extends LRADefinition {
      */
     String getCallbackURL();
 
-    boolean getSubscribeCallerAsParticipant();
-
     String LRA_RESULT_PARAM_NAME = "LRAResult";
 }
