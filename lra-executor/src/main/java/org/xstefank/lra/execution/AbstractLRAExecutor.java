@@ -55,11 +55,13 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
         }
 
         if (!needCompensation) {
-            completeLRA(lraId);
-            return new LRAResult(LRAOutcome.COMPLETED, lraDefinition);
+            LRAResult lraResult = new LRAResult(lraId, LRAOutcome.COMPLETED, lraDefinition);
+            completeLRA(lraResult);
+            return lraResult;
         } else {
-            compensateLRA(lraId);
-            return new LRAResult(LRAOutcome.COMPENSATED, lraDefinition);
+            LRAResult lraResult = new LRAResult(lraId, LRAOutcome.COMPENSATED, lraDefinition);
+            compensateLRA(lraResult);
+            return lraResult;
         }
     }
 
@@ -67,7 +69,7 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
         return action.invoke(data);
     }
 
-    protected abstract void compensateLRA(URL lraId);
+    protected abstract void compensateLRA(LRAResult lraResult);
 
-    protected abstract void completeLRA(URL lraId);
+    protected abstract void completeLRA(LRAResult lraResult);
 }
