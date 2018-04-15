@@ -6,9 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xstefank.lra.definition.LRABuilder;
 import org.xstefank.lra.definition.LRADefinition;
+import org.xstefank.lra.execution.model.LRAOutcome;
+import org.xstefank.lra.execution.model.LRAResult;
 import org.xstefank.lra.model.ActionResult;
-import org.xstefank.lra.model.LRAOutcome;
-import org.xstefank.lra.model.LRAResult;
 
 import java.net.MalformedURLException;
 import java.net.URL;

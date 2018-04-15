@@ -1,4 +1,4 @@
-package org.xstefank.lra.model;
+package org.xstefank.lra.execution.model;
 
 import lombok.ToString;
 import org.xstefank.lra.definition.LRADefinition;

@@ -1,7 +1,7 @@
 package org.xstefank.lra.execution;
 
 import org.xstefank.lra.definition.LRADefinition;
-import org.xstefank.lra.model.LRAResult;
+import org.xstefank.lra.execution.model.LRAResult;
 
 import java.net.URL;
 import java.util.concurrent.Future;

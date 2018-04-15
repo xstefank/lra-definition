@@ -1,4 +1,4 @@
-package org.xstefank.lra.model;
+package org.xstefank.lra.execution.model;
 
 public enum LRAOutcome {
 

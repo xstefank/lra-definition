@@ -3,10 +3,10 @@ package org.xstefank.lra.execution;
 import org.jboss.logging.Logger;
 import org.xstefank.lra.definition.Action;
 import org.xstefank.lra.definition.LRADefinition;
+import org.xstefank.lra.execution.model.LRAOutcome;
+import org.xstefank.lra.execution.model.LRAResult;
 import org.xstefank.lra.model.ActionResult;
 import org.xstefank.lra.model.LRAData;
-import org.xstefank.lra.model.LRAOutcome;
-import org.xstefank.lra.model.LRAResult;
 
 import java.net.URL;
 import java.util.concurrent.ExecutorService;

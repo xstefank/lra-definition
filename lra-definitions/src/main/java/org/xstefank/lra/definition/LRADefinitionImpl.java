@@ -12,7 +12,6 @@ import java.util.List;
 public class LRADefinitionImpl<T extends Action> implements LRADefinition {
 
     //type information in this class is required only for the JSON processing purposes
-    //TODO associate Action type information in JSON to process different actions in one LRA
     private String name;
     private List<T> actions;
     private Object data;
