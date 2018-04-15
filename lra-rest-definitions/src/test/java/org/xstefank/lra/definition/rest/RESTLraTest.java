@@ -29,7 +29,7 @@ public class RESTLraTest {
                 "\"data\":42," +
                 "\"parentLRA\":null," +
                 "\"clientId\":\"\"," +
-                "\"timeout\":0," +
+                "\"timelimit\":0," +
                 "\"callbackURL\":\"http://testLocal.org\"," +
                 "\"nestedLRAs\":[]" +
                 "}";

@@ -6,7 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
@@ -28,7 +27,7 @@ public class JSONTest {
                 "\"data\":42," +
                 "\"parentLRA\":null," +
                 "\"clientId\":\"\"," +
-                "\"timeout\":0," +
+                "\"timelimit\":0," +
                 "\"nestedLRAs\":[]" +
                 "}";
 
@@ -55,14 +54,14 @@ public class JSONTest {
                 "\"data\":42," +
                 "\"parentLRA\":null," +
                 "\"clientId\":\"\"," +
-                "\"timeout\":0," +
+                "\"timelimit\":0," +
                 "\"nestedLRAs\":[{" +
                     "\"name\":\"nestedLRA\"," +
                     "\"actions\":[{}]," +
                     "\"data\":41,\"" +
                     "parentLRA\":null," +
                     "\"clientId\":\"\"," +
-                    "\"timeout\":0," +
+                    "\"timelimit\":0," +
                     "\"nestedLRAs\":[]}]" +
                 "}";
 
@@ -78,7 +77,7 @@ public class JSONTest {
                 .data(42)
                 .parentLRA(new URL("http://parent.lra"))
                 .clientId("clientId")
-                .timeout(30, TimeUnit.SECONDS)
+                .timelimit(30, TimeUnit.SECONDS)
                 .build();
 
 
@@ -88,7 +87,7 @@ public class JSONTest {
                 "\"data\":42," +
                 "\"parentLRA\":\"http://parent.lra\"," +
                 "\"clientId\":\"clientId\"," +
-                "\"timeout\":30000," +
+                "\"timelimit\":30000," +
                 "\"nestedLRAs\":[]" +
                 "}";
 

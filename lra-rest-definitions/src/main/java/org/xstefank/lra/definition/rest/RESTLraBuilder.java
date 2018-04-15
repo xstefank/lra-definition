@@ -23,6 +23,6 @@ public class RESTLraBuilder extends LRABuilder<RESTLraBuilder, RESTLra, RESTActi
 
     @Override
     public RESTLra build() {
-        return new RESTLraImpl(name, actions, data, nested, parentLRA, clientId, timeout, callbackURL);
+        return new RESTLraImpl(name, actions, data, nested, parentLRA, clientId, timelimit, callbackURL);
     }
 }

@@ -14,7 +14,7 @@ public class LRABuilder<T extends LRABuilder, U extends LRADefinition, V extends
     protected List<LRADefinition> nested = new ArrayList<>();
     protected String parentLRA;
     protected String clientId;
-    protected long timeout;
+    protected long timelimit;
 
     protected LRABuilder() {
     }
@@ -61,17 +61,17 @@ public class LRABuilder<T extends LRABuilder, U extends LRADefinition, V extends
         return (T) this;
     }
 
-    public T timeout(long millis) {
-        this.timeout = millis;
+    public T timelimit(long millis) {
+        this.timelimit = millis;
         return (T) this;
     }
 
-    public T timeout(long timeout, TimeUnit unit) {
-        return timeout(unit.toMillis(timeout));
+    public T timelimit(long timeout, TimeUnit unit) {
+        return timelimit(unit.toMillis(timeout));
     }
 
     public U build() {
-        return (U) new LRADefinitionImpl(name, actions, data, nested, parentLRA, clientId, timeout);
+        return (U) new LRADefinitionImpl(name, actions, data, nested, parentLRA, clientId, timelimit);
     }
 
     protected T addNested(LRADefinition lraDefinition) {

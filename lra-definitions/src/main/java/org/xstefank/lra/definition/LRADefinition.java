@@ -42,6 +42,6 @@ public interface LRADefinition {
     /**
      * The time out in milliseconds after which the LRA is cancelled
      */
-    long getTimeout();
+    long getTimelimit();
 
 }

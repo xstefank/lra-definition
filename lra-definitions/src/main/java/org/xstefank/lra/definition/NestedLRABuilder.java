@@ -1,5 +1,8 @@
 package org.xstefank.lra.definition;
 
+import java.net.URL;
+import java.util.concurrent.TimeUnit;
+
 @SuppressWarnings(value = "unchecked")
 public class NestedLRABuilder<T extends LRABuilder, U extends LRADefinition, V extends Action> {
 
@@ -24,6 +27,29 @@ public class NestedLRABuilder<T extends LRABuilder, U extends LRADefinition, V e
     public NestedLRABuilder<T, U, V> data(Object data) {
         delegate.data(data);
         return this;
+    }
+
+    public NestedLRABuilder<T, U, V> parentLRA(String parentLRA) {
+        delegate.parentLRA(parentLRA);
+        return this;
+    }
+
+    public NestedLRABuilder<T, U, V> parentLRA(URL parentLRA) {
+        return parentLRA(parentLRA.toString());
+    }
+
+    public NestedLRABuilder<T, U, V> clientId(String clientId) {
+        delegate.clientId(clientId);
+        return this;
+    }
+
+    public NestedLRABuilder<T, U, V> timelimit(long millis) {
+        delegate.timelimit(millis);
+        return this;
+    }
+
+    public NestedLRABuilder<T, U, V> timelimit(long timeout, TimeUnit unit) {
+        return timelimit(unit.toMillis(timeout));
     }
 
     public T end() {

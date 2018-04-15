@@ -18,10 +18,10 @@ public class LRADefinitionImpl<T extends Action> implements LRADefinition {
     private List<LRADefinition> nested;
     private String parentLRA;
     private String clientId;
-    private long timeout;
+    private long timelimit;
 
     public LRADefinitionImpl(String name, List<T> actions, Object data, List<LRADefinition> nested,
-                             String parentLRA, String clientId, long timeout) {
+                             String parentLRA, String clientId, long timelimit) {
 
         if (clientId == null) {
             clientId = "";
@@ -37,7 +37,7 @@ public class LRADefinitionImpl<T extends Action> implements LRADefinition {
         this.nested = nested;
         this.parentLRA = parentLRA;
         this.clientId = clientId;
-        this.timeout = timeout;
+        this.timelimit = timelimit;
     }
 
     @Override
@@ -76,8 +76,8 @@ public class LRADefinitionImpl<T extends Action> implements LRADefinition {
     }
 
     @Override
-    public long getTimeout() {
-        return timeout;
+    public long getTimelimit() {
+        return timelimit;
     }
 
     @Override
@@ -85,20 +85,27 @@ public class LRADefinitionImpl<T extends Action> implements LRADefinition {
         if (this == o) return true;
         if (!(o instanceof LRADefinitionImpl)) return false;
 
-        LRADefinitionImpl that = (LRADefinitionImpl) o;
+        LRADefinitionImpl<?> that = (LRADefinitionImpl<?>) o;
 
+        if (getTimelimit() != that.getTimelimit()) return false;
         if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
-        if (!getActions().equals(that.getActions())) return false;
+        if (getActions() != null ? !getActions().equals(that.getActions()) : that.getActions() != null) return false;
         if (getData() != null ? !getData().equals(that.getData()) : that.getData() != null) return false;
-        return nested != null ? nested.equals(that.nested) : that.nested == null;
+        if (nested != null ? !nested.equals(that.nested) : that.nested != null) return false;
+        if (getParentLRA() != null ? !getParentLRA().equals(that.getParentLRA()) : that.getParentLRA() != null)
+            return false;
+        return getClientId() != null ? getClientId().equals(that.getClientId()) : that.getClientId() == null;
     }
 
     @Override
     public int hashCode() {
         int result = getName() != null ? getName().hashCode() : 0;
-        result = 31 * result + getActions().hashCode();
+        result = 31 * result + (getActions() != null ? getActions().hashCode() : 0);
         result = 31 * result + (getData() != null ? getData().hashCode() : 0);
         result = 31 * result + (nested != null ? nested.hashCode() : 0);
+        result = 31 * result + (getParentLRA() != null ? getParentLRA().hashCode() : 0);
+        result = 31 * result + (getClientId() != null ? getClientId().hashCode() : 0);
+        result = 31 * result + (int) (getTimelimit() ^ (getTimelimit() >>> 32));
         return result;
     }
 }
