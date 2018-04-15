@@ -29,10 +29,19 @@ public interface LRADefinition {
      */
     List<LRADefinition> getNestedLRAs();
 
+    /**
+     * Parent LRA identification if the parent is available
+     */
     String getParentLRA();
 
+    /**
+     * Unique identifier of the intiating client
+     */
     String getClientId();
 
+    /**
+     * The time out in milliseconds after which the LRA is cancelled
+     */
     long getTimeout();
 
 }
