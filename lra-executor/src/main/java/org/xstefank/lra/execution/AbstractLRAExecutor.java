@@ -18,7 +18,7 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
 
     private static final Logger log = Logger.getLogger(AbstractLRAExecutor.class);
 
-    private ExecutorService executorService = Executors.newFixedThreadPool(3);
+    private ExecutorService executorService = Executors.newCachedThreadPool();
 
     @Override
     public LRAResult executeLRA(LRADefinition lraDefinition) {
@@ -39,7 +39,6 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
     private LRAResult execute(LRADefinition lraDefinition) {
         log.infof("Processing LRA with definition: ", lraDefinition);
 
-        log.info("Starting LRA...");
         URL lraId = startLRA(lraDefinition);
         log.info("started LRA: " + lraId);
 

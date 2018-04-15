@@ -10,7 +10,7 @@ import java.util.concurrent.Future;
 public interface LRAExecutor {
 
     /**
-     * Starts and executes LRA and block until it is finished
+     * Starts and executes LRA synchronously
      *
      * @param lraDefinition the definition of the LRA according to which it is to be ececuted
      */

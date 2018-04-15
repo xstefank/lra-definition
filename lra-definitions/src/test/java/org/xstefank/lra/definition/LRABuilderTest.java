@@ -80,12 +80,12 @@ public class LRABuilderTest {
         Assert.assertEquals(1, lra.getNestedLRAs().size());
         Assert.assertEquals(42, lra.getData());
 
-        LRADefinition firstLevel = (LRADefinition) lra.getNestedLRAs().get(0);
+        LRADefinition firstLevel = lra.getNestedLRAs().get(0);
         Assert.assertEquals("firstLevel", firstLevel.getName());
         Assert.assertEquals(1, firstLevel.getActions().size());
         Assert.assertEquals(1, firstLevel.getNestedLRAs().size());
 
-        LRADefinition secondLevel = (LRADefinition) firstLevel.getNestedLRAs().get(0);
+        LRADefinition secondLevel = firstLevel.getNestedLRAs().get(0);
         Assert.assertEquals("secondLevel", secondLevel.getName());
         Assert.assertEquals(1, secondLevel.getActions().size());
         Assert.assertEquals(0, secondLevel.getNestedLRAs().size());
