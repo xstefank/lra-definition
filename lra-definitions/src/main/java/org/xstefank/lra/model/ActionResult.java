@@ -6,31 +6,37 @@ import lombok.ToString;
 public class ActionResult {
 
     private Result result;
-    private String cause;
+    private String message;
+    private Throwable cause;
 
     public ActionResult(Result result) {
         this.result = result;
     }
 
-    private ActionResult(Result result, String cause) {
+    private ActionResult(Result result, String message, Throwable cause) {
         this.result = result;
+        this.message = message;
         this.cause = cause;
     }
 
     public static ActionResult success() {
-        return new ActionResult(Result.SUCCESS);
+        return new ActionResult(Result.SUCCESS, null, null);
     }
 
     public static ActionResult failure() {
-        return new ActionResult(Result.FAILURE);
+        return new ActionResult(Result.FAILURE, null, null);
     }
 
-    public static ActionResult failure(String cause) {
-        return new ActionResult(Result.FAILURE, cause);
+    public static ActionResult failure(String message) {
+        return new ActionResult(Result.FAILURE, message, null);
     }
 
     public static ActionResult failure(Exception ex) {
-        return new ActionResult(Result.FAILURE, ex.getMessage());
+        return new ActionResult(Result.FAILURE, null, ex);
+    }
+
+    public static ActionResult failure(String message, Exception ex) {
+        return new ActionResult(Result.FAILURE, message, ex);
     }
 
     public boolean isSuccess() {
@@ -45,4 +51,11 @@ public class ActionResult {
         return result;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public Throwable getCause() {
+        return cause;
+    }
 }

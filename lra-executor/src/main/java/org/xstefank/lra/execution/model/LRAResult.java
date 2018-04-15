@@ -12,10 +12,23 @@ public class LRAResult {
     private final LRAOutcome outcome;
     private final LRADefinition lraDefinition;
 
-    public LRAResult(URL lraId, LRAOutcome outcome, LRADefinition lraDefinition) {
+    private final String message;
+    private final Throwable cause;
+
+    public LRAResult(URL lraId, LRAOutcome outcome, LRADefinition lraDefinition, String message, Throwable cause) {
         this.lraId = lraId;
         this.outcome = outcome;
         this.lraDefinition = lraDefinition;
+        this.message = message;
+        this.cause = cause;
+    }
+
+    public LRAResult(URL lraId, LRAOutcome outcome, LRADefinition lraDefinition, String message) {
+        this(lraId, outcome, lraDefinition, message, null);
+    }
+
+    public LRAResult(URL lraId, LRAOutcome outcome, LRADefinition lraDefinition) {
+        this(lraId, outcome, lraDefinition, null, null);
     }
 
     public URL getLraId() {
@@ -30,4 +43,11 @@ public class LRAResult {
         return lraDefinition;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public Throwable getCause() {
+        return cause;
+    }
 }

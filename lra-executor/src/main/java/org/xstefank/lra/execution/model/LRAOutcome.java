@@ -3,5 +3,5 @@ package org.xstefank.lra.execution.model;
 public enum LRAOutcome {
 
     COMPLETED,
-    COMPENSATED
+    NEED_COMPENSATION //TODO rename to COMPENSATED when merged with lra-coordinator
 }

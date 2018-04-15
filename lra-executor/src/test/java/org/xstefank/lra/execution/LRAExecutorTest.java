@@ -66,7 +66,7 @@ public class LRAExecutorTest {
 
         LRAResult lraResult = lraExecutor.executeLRA(definition);
 
-        Assert.assertEquals(LRAOutcome.COMPENSATED, lraResult.getOutcome());
+        Assert.assertEquals(LRAOutcome.NEED_COMPENSATION, lraResult.getOutcome());
         Assert.assertEquals(0, counter.get());
         Assert.assertEquals("mutable failure", ((StringBuilder) definition.getData()).toString());
     }
@@ -106,7 +106,7 @@ public class LRAExecutorTest {
 
         LRAResult lraResult = future.get();
 
-        Assert.assertEquals(LRAOutcome.COMPENSATED, lraResult.getOutcome());
+        Assert.assertEquals(LRAOutcome.NEED_COMPENSATION, lraResult.getOutcome());
         Assert.assertEquals(0, counter.get());
         Assert.assertEquals("mutable failure", ((StringBuilder) definition.getData()).toString());
     }
