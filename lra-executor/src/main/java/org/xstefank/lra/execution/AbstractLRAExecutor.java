@@ -37,7 +37,7 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
     }
 
     private LRAResult execute(LRADefinition lraDefinition) {
-        log.infof("Processing LRA with definition: ", lraDefinition);
+        log.infof("Processing LRA with definition: " + lraDefinition);
 
         URL lraId = startLRA(lraDefinition);
         log.info("started LRA: " + lraId);
@@ -69,7 +69,7 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
         return action.invoke(data);
     }
 
-    protected abstract void compensateLRA(LRAResult result);
-
     protected abstract void completeLRA(LRAResult result);
+
+    protected abstract void compensateLRA(LRAResult result);
 }

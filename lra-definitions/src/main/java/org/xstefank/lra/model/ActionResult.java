@@ -9,10 +9,6 @@ public class ActionResult {
     private String message;
     private Throwable cause;
 
-    public ActionResult(Result result) {
-        this.result = result;
-    }
-
     private ActionResult(Result result, String message, Throwable cause) {
         this.result = result;
         this.message = message;
@@ -23,6 +19,10 @@ public class ActionResult {
         return new ActionResult(Result.SUCCESS, null, null);
     }
 
+    public static ActionResult success(String message) {
+        return new ActionResult(Result.SUCCESS, message, null);
+    }
+
     public static ActionResult failure() {
         return new ActionResult(Result.FAILURE, null, null);
     }
@@ -31,12 +31,12 @@ public class ActionResult {
         return new ActionResult(Result.FAILURE, message, null);
     }
 
-    public static ActionResult failure(Exception ex) {
-        return new ActionResult(Result.FAILURE, null, ex);
+    public static ActionResult failure(Throwable cause) {
+        return new ActionResult(Result.FAILURE, null, cause);
     }
 
-    public static ActionResult failure(String message, Exception ex) {
-        return new ActionResult(Result.FAILURE, message, ex);
+    public static ActionResult failure(String message, Throwable cause) {
+        return new ActionResult(Result.FAILURE, message, cause);
     }
 
     public boolean isSuccess() {

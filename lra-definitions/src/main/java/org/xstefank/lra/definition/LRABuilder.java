@@ -66,8 +66,8 @@ public class LRABuilder<T extends LRABuilder, U extends LRADefinition, V extends
         return (T) this;
     }
 
-    public T timelimit(long timeout, TimeUnit unit) {
-        return timelimit(unit.toMillis(timeout));
+    public T timelimit(long timelimit, TimeUnit unit) {
+        return timelimit(unit.toMillis(timelimit));
     }
 
     public U build() {
