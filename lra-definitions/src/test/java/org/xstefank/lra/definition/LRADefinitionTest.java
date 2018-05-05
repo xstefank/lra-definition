@@ -7,6 +7,7 @@ import org.junit.rules.ExpectedException;
 import org.xstefank.lra.model.ActionResult;
 import org.xstefank.lra.model.LRAData;
 
+@SuppressWarnings(value = "unchecked")
 public class LRADefinitionTest {
 
     @Rule

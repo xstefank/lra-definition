@@ -26,8 +26,8 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
     }
 
     /**
-     * The default async implemetation submits the exectution to separate thread that calls
-     * startLRA(LRADefinition) method which in that case may be invocated concurrently by several threads
+     * The default async implemetation submits the execution to separate thread that calls
+     * startLRA(LRADefinition) method which in that case may be invoked by several threads concurrently
      *
      * @param lraDefinition the definition of the LRA according to which it is to be executed
      */
@@ -48,6 +48,7 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
         log.info("Executing LRA...");
         for (Action action : lraDefinition.getActions()) {
             ActionResult result = executeAction(action, data);
+
             if (result.isFailure()) {
                 lraResult = new LRAResult(lraId, LRAOutcome.NEED_COMPENSATION, lraDefinition,
                         result.getMessage(), result.getCause());

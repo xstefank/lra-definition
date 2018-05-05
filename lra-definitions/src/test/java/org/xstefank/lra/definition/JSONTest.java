@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.xstefank.lra.definition.TestUtil.dummyAction;
 
+@SuppressWarnings(value = "unchecked")
 public class JSONTest {
 
     @Test
