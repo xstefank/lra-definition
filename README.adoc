@@ -1,0 +1,4 @@
+= LRA executor extension
+
+An extension project for the https://github.com/jbosstm/narayana/tree/master/rts/lra[Narayana LRA] (Long running actions) definition and execution
+
