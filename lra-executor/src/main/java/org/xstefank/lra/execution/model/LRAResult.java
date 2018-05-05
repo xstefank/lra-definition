@@ -39,6 +39,10 @@ public class LRAResult {
         return outcome;
     }
 
+    public boolean isSuccess() {
+        return outcome.equals(LRAOutcome.COMPLETED);
+    }
+
     public LRADefinition getLraDefinition() {
         return lraDefinition;
     }
