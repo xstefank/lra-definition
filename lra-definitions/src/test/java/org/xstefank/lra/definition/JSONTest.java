@@ -59,8 +59,8 @@ public class JSONTest {
                 "\"nestedLRAs\":[{" +
                     "\"name\":\"nestedLRA\"," +
                     "\"actions\":[{}]," +
-                    "\"data\":41,\"" +
-                    "parentLRA\":null," +
+                    "\"data\":41," +
+                    "\"parentLRA\":null," +
                     "\"clientId\":\"\"," +
                     "\"timelimit\":0," +
                     "\"nestedLRAs\":[]}]" +

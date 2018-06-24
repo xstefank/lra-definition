@@ -34,7 +34,7 @@ public class LRAExecutorTest {
     }
 
     @Test
-    public void testSimpleExecution() throws ExecutionException, InterruptedException {
+    public void testSimpleExecution() {
         definition = LRABuilder.lra()
                 .name("test LRA")
                 .withAction(d -> {
@@ -55,7 +55,7 @@ public class LRAExecutorTest {
     }
 
     @Test
-    public void testExecutionFailure() throws InterruptedException, ExecutionException {
+    public void testExecutionFailure() {
         definition = LRABuilder.lra()
                 .name("test LRA")
                 .withAction(d -> ActionResult.failure())

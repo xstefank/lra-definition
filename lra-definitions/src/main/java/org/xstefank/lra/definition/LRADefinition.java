@@ -35,12 +35,12 @@ public interface LRADefinition {
     String getParentLRA();
 
     /**
-     * Unique identifier of the intiating client
+     * Unique identifier of the initiating client
      */
     String getClientId();
 
     /**
-     * The time out in milliseconds after which the LRA is cancelled
+     * The timeout in milliseconds after which the LRA is cancelled
      */
     long getTimelimit();
 
