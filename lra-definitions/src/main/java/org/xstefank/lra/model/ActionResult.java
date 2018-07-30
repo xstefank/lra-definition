@@ -5,54 +5,54 @@ import lombok.ToString;
 @ToString
 public class ActionResult {
 
-    private Result result;
-    private String message;
+    private ActionOutcome outcome;
+    private Object result;
     private Throwable cause;
 
-    private ActionResult(Result result, String message, Throwable cause) {
+    private ActionResult(ActionOutcome outcome, Object result, Throwable cause) {
+        this.outcome = outcome;
         this.result = result;
-        this.message = message;
         this.cause = cause;
     }
 
     public static ActionResult success() {
-        return new ActionResult(Result.SUCCESS, null, null);
+        return new ActionResult(ActionOutcome.SUCCESS, null, null);
     }
 
-    public static ActionResult success(String message) {
-        return new ActionResult(Result.SUCCESS, message, null);
+    public static ActionResult success(Object result) {
+        return new ActionResult(ActionOutcome.SUCCESS, result, null);
     }
 
     public static ActionResult failure() {
-        return new ActionResult(Result.FAILURE, null, null);
+        return new ActionResult(ActionOutcome.FAILURE, null, null);
     }
 
-    public static ActionResult failure(String message) {
-        return new ActionResult(Result.FAILURE, message, null);
+    public static ActionResult failure(Object result) {
+        return new ActionResult(ActionOutcome.FAILURE, result, null);
     }
 
     public static ActionResult failure(Throwable cause) {
-        return new ActionResult(Result.FAILURE, null, cause);
+        return new ActionResult(ActionOutcome.FAILURE, null, cause);
     }
 
-    public static ActionResult failure(String message, Throwable cause) {
-        return new ActionResult(Result.FAILURE, message, cause);
+    public static ActionResult failure(Object result, Throwable cause) {
+        return new ActionResult(ActionOutcome.FAILURE, result, cause);
     }
 
     public boolean isSuccess() {
-        return result.equals(Result.SUCCESS);
+        return outcome.equals(ActionOutcome.SUCCESS);
     }
 
     public boolean isFailure() {
-        return result.equals(Result.FAILURE);
+        return outcome.equals(ActionOutcome.FAILURE);
     }
 
-    public Result getResult() {
+    public ActionOutcome getOutcome() {
+        return outcome;
+    }
+
+    public Object getResult() {
         return result;
-    }
-
-    public String getMessage() {
-        return message;
     }
 
     public Throwable getCause() {

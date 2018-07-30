@@ -47,12 +47,16 @@ public abstract class AbstractLRAExecutor implements LRAExecutor {
 
         log.info("Executing LRA...");
         for (Action action : lraDefinition.getActions()) {
-            ActionResult result = executeAction(action, data);
+            ActionResult actionResult = executeAction(action, data);
 
-            if (result.isFailure()) {
+            if (actionResult.isFailure()) {
                 lraResult = new LRAResult(lraId, LRAOutcome.NEED_COMPENSATION, lraDefinition,
-                        result.getMessage(), result.getCause());
+                        actionResult.getResult() != null ? actionResult.getResult().toString() : "N/A", actionResult.getCause());
                 break;
+            }
+
+            if (action.getResultName() != null) {
+                data.addResult(action.getResultName(), actionResult.getResult());
             }
         }
 
